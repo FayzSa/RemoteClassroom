@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    //test du commit a partir de phpstorm
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +24,8 @@ class UsersController extends Controller
     {
         $docRef = self::$db->collection('User');
         $snapshot = $docRef->documents();
-        $user = $snapshot;   
-        // print_r($user);  
+        $user = $snapshot;
+        // print_r($user);
         return view ('users.index', compact('user'));
     }
 
@@ -47,7 +48,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $docRef = self::$db->collection('User');
-        $docRef->add([      
+        $docRef->add([
             'FullName' => $request->FullName
         ]);
 
