@@ -16,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/users', 'UsersController@index');
-Route::get('/users/create', 'UsersController@create');
-Route::post('/users/store', 'UsersController@store');
-Route::get('/users/edit/{id}', 'UsersController@edit');
-Route::put('/users/update/{id}', 'UsersController@update');
-Route::get('/users/delete/{id}', 'UsersController@destroy');
+;
+
+Route::get('/users', 'FirebaseController@index');
+Route::get('/register', 'FirebaseController@register');
+Route::get('/login', 'FirebaseController@login');
