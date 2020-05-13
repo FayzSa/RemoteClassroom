@@ -21,8 +21,8 @@ class FirebaseController extends Controller
         echo "hello ";
         $docRef =  $this->db->collection('User');
         $query = $docRef;
-        $search="Fayz";
-        
+        $search="Ayoub";
+        $type="prof";
             $query = $docRef->where('FullName', '=', $search);
 
         $documents = $query->documents();
