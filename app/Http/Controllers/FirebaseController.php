@@ -38,22 +38,22 @@ class FirebaseController extends Controller
 
         public function register(){
             try {
-                $email = 'fayz@gmail.com';
+                $email = 'arouche2@gmail.com';
                 $password = '123456';
                 $authRef = app('firebase.auth')->createUser([
                      'email' => $email,
                     'password' => $password
                ]);
-        
+
               $actionCodeSettings = [
                        'continueUrl' => 'www.remoteclassroom.com/home'
               ];
-        
+
                app('firebase.auth')->sendEmailVerificationLink($email, $actionCodeSettings);
-        
+
                echo $authRef->uid; //This is unique id of inserted user.
-        
-        } 
+
+        }
         catch (\Kreait\Firebase\Exception\Auth\EmailExists $ex) {
            echo 'email already exists';
         }
@@ -64,8 +64,8 @@ class FirebaseController extends Controller
 
 
             try {
-                $email ='rachid@test.com';
-                $password = '123456789';
+                $email ='arouche@gmail.com';
+                $password = '123456';
                 $user = app('firebase.auth')->signInWithEmailAndPassword($email,$password);
                 if($user) {
                          echo 'login success';
@@ -75,8 +75,17 @@ class FirebaseController extends Controller
         } catch (\Kreait\Firebase\Exception\Auth\InvalidPassword $ex) {
                echo 'Invalid password';
         }
-        
+
         }
 
-    
+    public  function insertUser($uid){
+        $docRef = $this->db->collection('User')->document($uid);
+        $docRef->set([
+            'FullName' => 'rachid',
+            'LastNAme'  => 'fayz',
+            'Type'       => 'ayoub'
+        ]);
+        return view('welcome');
+    }
+
 }
