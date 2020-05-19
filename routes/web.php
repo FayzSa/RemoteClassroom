@@ -27,3 +27,11 @@ Route::get('/remove', 'Etudiant@exit_class_room');
 /// and it will gives you all the courses that student have
 
 Route::get('/test/{id_of_user}','Etudiant@test');
+/// these to mehtodes to register the student in the firebase with the authentification also
+/// i see that we can use a controller to controlle the authentification only for all types of user
+/// and if it a student we pass the instance to the student controller same thing for others
+/// so with that we can avoid repeating code
+Route::get('/student/register', function () {
+    return view('student.register');
+});
+Route::post('/student/create', 'Etudiant@register');

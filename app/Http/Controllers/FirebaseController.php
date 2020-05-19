@@ -52,7 +52,6 @@ class FirebaseController extends Controller
                app('firebase.auth')->sendEmailVerificationLink($email, $actionCodeSettings);
 
                echo $authRef->uid; //This is unique id of inserted user.
-
         }
         catch (\Kreait\Firebase\Exception\Auth\EmailExists $ex) {
            echo 'email already exists';
