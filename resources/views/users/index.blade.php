@@ -30,7 +30,7 @@
                 <td>{{ $data['FullName'] }}</td>
               
                 <td>
-                  <a class="btn btn-xs btn-warning"  href="/users/edit/{{ $data->id() }}">edit</a>
+                  <a class="btn btn-xs btn-warning"  href="/users/edit/{{ $data->id() }}" >edit</a>
 
                   <a class="btn btn-xs btn-danger" href="/users/delete/{{ $data->id() }}">delete</a>
                 </td>
