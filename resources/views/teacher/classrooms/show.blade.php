@@ -14,10 +14,5 @@
             </form>
         </div>
 </div>
-<!--<p>Name : <strong>{ {$customer->CustName}}</strong></p>
-<p>E-mail : <strong>{ {$customer->email}}</strong></p>
-<p> Company : <strong>{ {$customer->company->name}}</strong></p>
-<p>Function : <strong>{ {$customer->active}}</strong></p>
-
 
 @endsection
