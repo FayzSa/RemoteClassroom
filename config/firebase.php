@@ -111,4 +111,8 @@ return [
 
     'cache_store' => env('FIREBASE_CACHE_STORE', 'file'),
 
+<<<<<<< HEAD
 ];
+=======
+];
+>>>>>>> origin/master

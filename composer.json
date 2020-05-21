@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "google/cloud-firestore": "^1.12",
+        "grpc/grpc": "^v1.27.0",
         "guzzlehttp/guzzle": "^6.3",
         "kreait/firebase-php": "^5.2",
         "kreait/laravel-firebase": "^2.0",
