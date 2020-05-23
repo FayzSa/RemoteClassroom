@@ -17,7 +17,10 @@
         "kreait/firebase-php": "^5.2",
         "kreait/laravel-firebase": "^2.0",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "ext-curl": "*",
+        "ext-simplexml": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

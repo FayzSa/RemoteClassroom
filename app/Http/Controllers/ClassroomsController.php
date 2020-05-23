@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\BigBlueButton;
+use App\BigBlueButton\Parameters\CreateMeetingParameters;
 use Illuminate\Http\Request;
 use App\Classroom;
-
+use Illuminate\Support\Facades\Http;
+use App\BigBlueButton\Parameters\JoinMeetingParameters;
 
 class ClassroomsController extends Controller
 {
+   protected $bbb;
+
+    /**
+     * ClassroomsController constructor.
+     */
+    public function __construct()
+    {
+        $this->bbb = new BigBlueButton();
+    }
+
     private function myClasses($OwenrID)
     {
        $classrooms = [];
@@ -15,28 +28,28 @@ class ClassroomsController extends Controller
        $snapshot = $docRef->where('OwnerID','==',$OwenrID)->documents();
        foreach($snapshot as $dataFormsnap)
        {
-           $class = new 
+           $class = new
            Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
            $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
            $dataFormsnap["ClassName"] ,$OwenrID
        );
        array_push($classrooms,$class);
 
-       }   
+       }
        //print_r($classrooms);
       return $classrooms;
     }
-  
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    
+
     public function index()
     {
-       
+
         $classrooms =ClassroomsController::myClasses("9152801b0c7e44838a0d");
         return view('teacher.classrooms.index', compact('classrooms'));
     }
@@ -74,7 +87,7 @@ class ClassroomsController extends Controller
     {
         print_r($classroomID);
         $classroom = ClassroomsController::tClass($classroomID);
-       
+
         return view("teacher.classrooms.show",compact('classroom'));
     }
 
@@ -118,12 +131,12 @@ class ClassroomsController extends Controller
 
     private function validateReq(){
 
-        return 
+        return
           request()->validate([
-            'ClassName'=>'required|min:4',    
+            'ClassName'=>'required|min:4',
             'invitCode'=>'required',
           ]);
-    
+
       }
 
       private function storeClass(Classroom $class)
@@ -137,7 +150,7 @@ class ClassroomsController extends Controller
           'OwnerID' => "9152801b0c7e44838a0d",
           'Students' => []
         ]);
-        
+
 
       }
   private function tClass($classroomID)
@@ -145,12 +158,90 @@ class ClassroomsController extends Controller
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->snapshot();
 
-    $classroom = new 
+    $classroom = new
     Classroom($class->id(), $class->data()["Students"] ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
     $class->data()["ClassName"] ,"My ID");
     return $classroom;
 }
+//
+//public function createMeting(){
+//        $big = new BigBlueButton();
+////
+////        $serversecretkey = 'igf2bniBLKYzKylkowueFYsIptyHM7r3W66btBQY';
+////        $url ='name=English&welcome=helloworld&moderatorPW=google&isBreakoutRoom=false&attendeePW=maroc&meetingID=hello';
+////        $appendcreate = 'create'.$url.$serversecretkey;
+////        $checksum = sha1($appendcreate);
+////       $response = Http::get('http://class.remoteclassroom.cloudns.cl/bigbluebutton/api/create?name=English&welcome=helloworld&moderatorPW=google&isBreakoutRoom=false&attendeePW=maroc&meetingID=hello&checksum='.$checksum);
+////    return $response;
+//
+//    $world = new CreateMeetingParameters("hello world","english");
+//    $world->setWelcomeMessage("hello world")->setModeratorOnlyMessage("ahmed sefrioui");
+//    $join =
+//
+//    $world->setModeratorPassword("google")->setBreakout(false)->setAttendeePassword("home");
+//    $life = $big->createMeeting($world);
+//   dd($life->getMeetingId());
+//    }
+    public function create_meeting(Request $request){
+        $username = $request->get('username');
+        $password = $request->get('password');
+        $attendedpassword = $request->get('attendedpassword');
+        $meeting_id = $request->get('meeting');
+        $meetiongName = $request->get('meetingname');
+       $welcomemessage = $request->get('welcomemesage');
+        $parameter = new CreateMeetingParameters($meeting_id,$meetiongName);
+        $parameter->setModeratorPassword($password)->setWelcomeMessage($meetiongName);
+        $parameter->setAttendeePassword($attendedpassword);
+        $parameter->setWelcomeMessage($welcomemessage);
+       $meetingurl =  $this->bbb->getCreateMeetingUrl($parameter);
+       $joinurl = 'to create the meeting use that url';
+        return view('teacher.classrooms.joinlivescript',compact('joinurl','meetingurl'));
+
+    }
+
+    public function joinMeeting(Request $request){
+        $username = $request->get('username');
+        $password = $request->get('password');
+        $meetingid = $request->get('meetingId');
+        $joinmeetingparameter = new JoinMeetingParameters($meetingid,$username,$password);
+        $joinurl = $this->bbb->getJoinMeetingURL($joinmeetingparameter);
+        $meetingurl = 'to  join use that url';
+        return view('teacher.classrooms.joinlivescript',compact('joinurl','meetingurl'));
+
+    }
+//
+//    public function joinmeeting(){
+//
+//       $join = new JoinMeetingParameters("hello world","arouche","home");
+//        $big = new BigBlueButton();
+//        dd($big->getJoinMeetingURL($join));
+//    }
+//    public function  joinmodirator(){
+//        $join = new JoinMeetingParameters("hello world","hamo","google");
+//        $join = $join->setUserId("life");
+//        $big = new BigBlueButton();
+//        $modiratorurl = $big->getJoinMeetingURL($join);
+//        dd($modiratorurl);
+//    }
+//    public function google($username){
+//        $join = new JoinMeetingParameters("hello world",$username,"home");
+//        $big = new BigBlueButton();
+//        dd($big->getJoinMeetingURL($join));
+//    }
+    public function withpdffunction(){
+
+//        <modules>
+//   <module name="presentation">
+//      <document url="http://www.sample-pdf.com/sample.pdf" filename="report.pdf"/>
+//      <document name="sample-presentation.pdf">JVBERi0xLjQKJ....
+//        [clipped here]
+//        ....0CiUlRU9GCg==
+//      </document>
+//   </module>
+//</modules>
+
+    }
 }
 
 
