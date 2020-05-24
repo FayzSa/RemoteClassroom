@@ -2,11 +2,15 @@
 
 namespace App;
 
+<<<<<<< HEAD
 use App\Http\Controllers\Controller;
+=======
+>>>>>>> origin/master
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+<<<<<<< HEAD
     protected $course_id,$class_room_id,$comments;
 
     /**
@@ -67,4 +71,7 @@ class Course extends Model
 
 
 //
+=======
+    //
+>>>>>>> origin/master
 }

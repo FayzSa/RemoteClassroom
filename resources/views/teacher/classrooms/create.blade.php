@@ -2,7 +2,7 @@
 
 @section('title','Add New Classroom')
 @section('content')
-<form action="/teacher/classrooms" method="post" enctype="multipart/form-data">
+<form action="{{route('classrooms.store')}}" method="post" enctype="multipart/form-data">
     @include('teacher.classrooms.form')
     <input type="submit" class='btn btn-primary'value="Add">
         </form>

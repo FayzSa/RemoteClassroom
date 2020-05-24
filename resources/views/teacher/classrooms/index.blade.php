@@ -25,7 +25,7 @@
             </div>
         
             <div class="col-4">
-            <a href="{{url('/teacher/classrooms/show')}}/{{$class->classroomID }}"> {{$class->className}}</a>
+            <a href="{{ route('classrooms.show',['classroomID'=>$class->classroomID]) }}"> {{$class->className}}</a>
                 </div>
         
            
