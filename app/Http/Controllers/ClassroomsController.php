@@ -100,7 +100,7 @@ class ClassroomsController extends Controller
     public function edit($classroomID)
     {
         $classroom = ClassroomsController::tClass($classroomID);
-       
+
         return view("teacher.classrooms.edit",compact('classroom'));
     }
 
@@ -113,10 +113,10 @@ class ClassroomsController extends Controller
      */
     public function update($classroomID)
     {
-        
+
         $classroom = ClassroomsController::updateClass($this->validateReq(),$classroomID);
         return redirect("teacher/classrooms/show/$classroomID");
-       
+
     }
 
     /**
@@ -163,7 +163,6 @@ class ClassroomsController extends Controller
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->snapshot();
 
-<<<<<<< HEAD
     $classroom = new
     Classroom($class->id(), $class->data()["Students"] ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
@@ -216,50 +215,14 @@ class ClassroomsController extends Controller
         return view('teacher.classrooms.joinlivescript',compact('joinurl','meetingurl'));
 
     }
-//
-//    public function joinmeeting(){
-//
-//       $join = new JoinMeetingParameters("hello world","arouche","home");
-//        $big = new BigBlueButton();
-//        dd($big->getJoinMeetingURL($join));
-//    }
-//    public function  joinmodirator(){
-//        $join = new JoinMeetingParameters("hello world","hamo","google");
-//        $join = $join->setUserId("life");
-//        $big = new BigBlueButton();
-//        $modiratorurl = $big->getJoinMeetingURL($join);
-//        dd($modiratorurl);
-//    }
-//    public function google($username){
-//        $join = new JoinMeetingParameters("hello world",$username,"home");
-//        $big = new BigBlueButton();
-//        dd($big->getJoinMeetingURL($join));
-//    }
-    public function withpdffunction(){
 
-//        <modules>
-//   <module name="presentation">
-//      <document url="http://www.sample-pdf.com/sample.pdf" filename="report.pdf"/>
-//      <document name="sample-presentation.pdf">JVBERi0xLjQKJ....
-//        [clipped here]
-//        ....0CiUlRU9GCg==
-//      </document>
-//   </module>
-//</modules>
 
-    }
-=======
-    $classroom = new 
-    Classroom($class->id(), $class->data()["Students"] ?? [],
-    $class["Courses"] ?? [] ,$class->data()["InviteCode"] ?? "" ,
-    $class->data()["ClassName"] ?? "","My ID");
-    return $classroom;
-}
+
 
 
 private function updateClass($Request , $classroomID)
 {
-    
+
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->update(
         [
@@ -268,18 +231,7 @@ private function updateClass($Request , $classroomID)
 
   ]
     );
-    
+
 }
 
->>>>>>> origin/master
 }
-
-
-/* ]
-new Map
-$docRef->set([
-   'location' => new \Google\Cloud\Core\GeoPoint(<latitude>,<longitude>)
-]);
-//GeoPoint(20.593683,78.962883)
-
-*/
