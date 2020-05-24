@@ -84,9 +84,11 @@ class ClassroomsController extends Controller
      * @param  \App\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function edit(Classroom $classroom)
+    public function edit($classroomID)
     {
-        //
+        $classroom = ClassroomsController::tClass($classroomID);
+       
+        return view("teacher.classrooms.edit",compact('classroom'));
     }
 
     /**
@@ -96,9 +98,12 @@ class ClassroomsController extends Controller
      * @param  \App\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Classroom $classroom)
+    public function update($classroomID)
     {
-        //
+        
+        $classroom = ClassroomsController::updateClass($this->validateReq(),$classroomID);
+        return redirect("teacher/classrooms/show/$classroomID");
+       
     }
 
     /**
@@ -107,12 +112,12 @@ class ClassroomsController extends Controller
      * @param  \App\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Classroom $classroom)
+    public function destroy($classroomID)
     {
         $docRef =  $this->db->collection('Classrooms')
-        ->document($classroom->classroomID)
+        ->document($classroomID)
         ->delete();
-        redirect('teacher.classrooms.index');
+     return redirect('teacher/classrooms/');
     }
 
 
@@ -146,11 +151,27 @@ class ClassroomsController extends Controller
     $class = $docRef->document($classroomID)->snapshot();
 
     $classroom = new 
-    Classroom($class->id(), $class->data()["Students"] ,
-    $class["Courses"] ,$class->data()["InviteCode"] ,
-    $class->data()["ClassName"] ,"My ID");
+    Classroom($class->id(), $class->data()["Students"] ?? [],
+    $class["Courses"] ?? [] ,$class->data()["InviteCode"] ?? "" ,
+    $class->data()["ClassName"] ?? "","My ID");
     return $classroom;
 }
+
+
+private function updateClass($Request , $classroomID)
+{
+    
+    $docRef =  $this->db->collection('Classrooms');
+    $class = $docRef->document($classroomID)->update(
+        [
+['path' => 'InviteCode','value' => $Request['invitCode']],
+['path' => 'ClassName','value' => $Request['ClassName']],
+
+  ]
+    );
+    
+}
+
 }
 
 

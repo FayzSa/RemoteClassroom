@@ -29,8 +29,8 @@ Route::get('/users/delete/{id}', 'UsersController@destroy');
 
 Route::get('teacher/classrooms', 'ClassroomsController@index');
 Route::get('teacher/classrooms/create', 'ClassroomsController@create');
-Route::post('teacher/classrooms/store', 'ClassroomsController@store');
-Route::get('teacher/classrooms/edit/{classroom}', 'ClassroomsController@edit')->name("classroom.edit");
-Route::get('teacher/classrooms/show/{id}', 'ClassroomsController@show');
-Route::put('teacher/classrooms/update/{classroom}', 'ClassroomsController@update');
-Route::delete('teacher/classrooms/{classroom}', 'ClassroomsController@destroy')->name("classroom.destroy");
+Route::post('teacher/classrooms/store', 'ClassroomsController@store')->name("classrooms.store");
+Route::get('teacher/classrooms/edit/{classroomID}', 'ClassroomsController@edit')->name("classroom.edit");
+Route::get('teacher/classrooms/show/{classroomID}', 'ClassroomsController@show')->name("classrooms.show");
+Route::patch('teacher/classrooms/{classroomID}', 'ClassroomsController@update')->name("classrooms.update");
+Route::delete('teacher/classrooms/{classroomID}', 'ClassroomsController@destroy')->name("classrooms.destroy");
