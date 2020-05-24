@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\BigBlueButton;
-use App\BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use App\Classroom;
 use Illuminate\Support\Facades\Http;
-use App\BigBlueButton\Parameters\JoinMeetingParameters;
+
 
 class ClassroomsController extends Controller
 {
@@ -16,10 +17,6 @@ class ClassroomsController extends Controller
     /**
      * ClassroomsController constructor.
      */
-    public function __construct()
-    {
-        $this->bbb = new BigBlueButton();
-    }
 
     private function myClasses($OwenrID)
     {
@@ -160,6 +157,7 @@ class ClassroomsController extends Controller
       }
   private function tClass($classroomID)
 {
+
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->snapshot();
 
@@ -169,55 +167,56 @@ class ClassroomsController extends Controller
     $class->data()["ClassName"] ,"My ID");
     return $classroom;
 }
-//
-//public function createMeting(){
-//        $big = new BigBlueButton();
-////
-////        $serversecretkey = 'igf2bniBLKYzKylkowueFYsIptyHM7r3W66btBQY';
-////        $url ='name=English&welcome=helloworld&moderatorPW=google&isBreakoutRoom=false&attendeePW=maroc&meetingID=hello';
-////        $appendcreate = 'create'.$url.$serversecretkey;
-////        $checksum = sha1($appendcreate);
-////       $response = Http::get('http://class.remoteclassroom.cloudns.cl/bigbluebutton/api/create?name=English&welcome=helloworld&moderatorPW=google&isBreakoutRoom=false&attendeePW=maroc&meetingID=hello&checksum='.$checksum);
-////    return $response;
-//
-//    $world = new CreateMeetingParameters("hello world","english");
-//    $world->setWelcomeMessage("hello world")->setModeratorOnlyMessage("ahmed sefrioui");
-//    $join =
-//
-//    $world->setModeratorPassword("google")->setBreakout(false)->setAttendeePassword("home");
-//    $life = $big->createMeeting($world);
-//   dd($life->getMeetingId());
-//    }
-    public function create_meeting(Request $request){
-        $username = $request->get('username');
-        $password = $request->get('password');
-        $attendedpassword = $request->get('attendedpassword');
-        $meeting_id = $request->get('meeting');
-        $meetiongName = $request->get('meetingname');
-       $welcomemessage = $request->get('welcomemesage');
-        $parameter = new CreateMeetingParameters($meeting_id,$meetiongName);
-        $parameter->setModeratorPassword($password)->setWelcomeMessage($meetiongName);
-        $parameter->setAttendeePassword($attendedpassword);
-        $parameter->setWelcomeMessage($welcomemessage);
-       $meetingurl =  $this->bbb->getCreateMeetingUrl($parameter);
-       $joinurl = 'to create the meeting use that url';
-        return view('teacher.classrooms.joinlivescript',compact('joinurl','meetingurl'));
 
+public function create_meeting(Request $request){
+
+
+    $bbb = new BigBlueButton();
+
+    $username = $request->get('username');
+    $password = $request->get('password');
+    $attendedpassword = $request->get('attendedpassword');
+    $meeting_id = $request->get('meeting');
+    $meetiongName = $request->get('meetingname');
+    $welcomemessage = $request->get('welcomemesage');
+    $createMeetingParams = new CreateMeetingParameters($meeting_id, $meetiongName);
+    $createMeetingParams->setAttendeePassword($attendedpassword);
+    $createMeetingParams->setModeratorPassword($password);
+    $createMeetingParams->setWelcomeMessage($welcomemessage);
+    $createMeetingParams->setLogoutUrl('127.0.0.1:8000');
+//    if ($isRecordingTrue) {
+//        $createMeetingParams->setRecord(true);
+//        $createMeetingParams->setAllowStartStopRecording(true);
+//        $createMeetingParams->setAutoStartRecording(true);
+//    }
+
+    $response = $bbb->createMeeting($createMeetingParams);
+    if ($response->getReturnCode() == 'FAILED') {
+        return dd('Can\'t create room! please contact our administrator.');
+    } else {
+
+        $joinMeetingParams = new JoinMeetingParameters($meeting_id, $username, $password); // $moderator_password for moderator
+        $joinMeetingParams->setRedirect(true);
+        $url = $bbb->getJoinMeetingURL($joinMeetingParams);
+       header('Location:' . $url);
+       return dd('room created');
     }
 
-    public function joinMeeting(Request $request){
-        $username = $request->get('username');
+
+}
+
+public function join_meeting(Request $request){
+            $username = $request->get('username');
         $password = $request->get('password');
         $meetingid = $request->get('meetingId');
-        $joinmeetingparameter = new JoinMeetingParameters($meetingid,$username,$password);
-        $joinurl = $this->bbb->getJoinMeetingURL($joinmeetingparameter);
-        $meetingurl = 'to  join use that url';
-        return view('teacher.classrooms.joinlivescript',compact('joinurl','meetingurl'));
+    $bbb = new BigBlueButton();
 
-    }
-
-
-
+    $joinMeetingParams = new JoinMeetingParameters($meetingid, $username, $password); // $moderator_password for moderator
+    $joinMeetingParams->setRedirect(true);
+    $url = $bbb->getJoinMeetingURL($joinMeetingParams);
+ header('Location:' . $url);
+ dd('room joined');
+}
 
 
 private function updateClass($Request , $classroomID)

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f1548eca1711f5996d6cb01ce3091f6",
+    "content-hash": "008d55749fb60043f1a32b7fb10362d9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -103,6 +103,58 @@
                 "math"
             ],
             "time": "2020-04-15T15:59:35+00:00"
+        },
+        {
+            "name": "conferenciacorp/bigbluebutton-api-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/conferencia_corp/bigbluebutton-api-php.git",
+                "reference": "872ff9036507fb8934a3a4f25394488eaafee29b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/conferencia_corp/bigbluebutton-api-php/get/872ff9036507fb8934a3a4f25394488eaafee29b.zip",
+                "reference": "872ff9036507fb8934a3a4f25394488eaafee29b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev",
+                "friendsofphp/php-cs-fixer": "~1.10",
+                "fzaninotto/faker": "~1.5.0",
+                "phpunit/phpunit": "4.1.*",
+                "satooshi/php-coveralls": "1.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BigBlueButton\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU Lesser General Public License"
+            ],
+            "authors": [
+                {
+                    "name": "Ghazi Triki",
+                    "email": "ghazi.nocturne@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BigBlueButton PHP API Library for PHP",
+            "homepage": "http://bigbluebutton.org/",
+            "keywords": [
+                "api",
+                "bbb",
+                "bigbluebutton"
+            ],
+            "time": "2017-09-06T11:42:50+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -6622,14 +6674,16 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "conferenciacorp/bigbluebutton-api-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2.5",
         "ext-curl": "*",
-        "ext-simplexml": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": []
 }
