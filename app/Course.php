@@ -2,16 +2,63 @@
 
 namespace App;
 
-<<<<<<< HEAD
+
 use App\Http\Controllers\Controller;
-=======
->>>>>>> origin/master
+
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-<<<<<<< HEAD
-    protected $course_id,$class_room_id,$comments;
+
+    protected $course_id,$class_room_id,$comments,$name,$description,$files;
+
+    /**
+     * @return mixed
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
+     * @param mixed $files
+     */
+    public function setFiles($files): void
+    {
+        $this->files = $files;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
 
     /**
      * @return mixed
@@ -68,10 +115,4 @@ class Course extends Model
         $this->comments = $comments;
     }
 
-
-
-//
-=======
-    //
->>>>>>> origin/master
 }

@@ -41,3 +41,14 @@ Route::get('teacher/classrooms/show/{classroomID}', 'ClassroomsController@show')
 Route::patch('teacher/classrooms/{classroomID}', 'ClassroomsController@update')->name("classrooms.update");
 Route::delete('teacher/classrooms/{classroomID}', 'ClassroomsController@destroy')->name("classrooms.destroy");
 
+
+Route::get('student/classrooms', 'Etudiant@index');
+//Route::post('student/classroom/join','');
+Route::get('/tests', 'Etudiant@get_course');
+Route::get('/student/classroom/exit/{classromID}','Etudiant@exit_class_room')->name('student.classroom.exit');
+Route::get('/student/classroom/join','Etudiant@join_class_room_view')->name('student.classroom.joinview');
+Route::post('student/classroom/sendrequest','Etudiant@join_class_room')->name('student.classroom.joinclass');
+Route::get('/student/classroom/requests','Etudiant@myrequests');
+Route::get('/student/classroom/show/{classroomID}','Etudiant@get_courses_of_classroom')->name('student.classroom.show');
+Route::get('/student/classroom/course/show/{courseID}', 'Etudiant@show_course')->name('student.classroom.course.show');
+Route::post('student/classroom/course/comment','Etudiant@comment')->name('student.classroom.course.comment');

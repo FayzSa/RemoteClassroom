@@ -15,23 +15,11 @@ use Google\Cloud\Firestore\FirestoreClient;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    protected static $db;
-
-
-
-
-    protected static function firestoreDatabaseInstance(){
-        // $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/FirebaseKey.json');
-          $firebase = (new Factory)
-          ->withServiceAccount(__DIR__.'/FirebaseKey.json');
-
-          $db = new FirestoreClient([
-              'projectId' => 'elearningapp-30a10',
-          ]);
-
-        return $db;
-      }
-
+    protected $db;
+    public function __construct()
+    {
+        $this->db = app('firebase.firestore')->database();
+    }
 
 
 }

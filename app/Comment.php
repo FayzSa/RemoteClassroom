@@ -81,6 +81,4 @@ class Comment extends Model
         $this->ownerId = $ownerId;
     }
 
-
-    //
 }
