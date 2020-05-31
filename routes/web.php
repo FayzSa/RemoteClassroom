@@ -75,3 +75,11 @@ Route::get('/student/classroom/requests','Etudiant@myrequests');
 Route::get('/student/classroom/show/{classroomID}','Etudiant@get_courses_of_classroom')->name('student.classroom.show');
 Route::get('/student/classroom/course/show/{courseID}', 'Etudiant@show_course')->name('student.classroom.course.show');
 Route::post('student/classroom/course/comment','Etudiant@comment')->name('student.classroom.course.comment');
+
+Route::get('teacher/classrooms/tests/{classroomID}', 'TestsController@index')->name("classroom.tests");
+Route::get('teacher/classrooms/tests/show/{testID}/{classroomID}', 'TestsController@show')->name("classroom.tests.show");
+Route::get('teacher/classrooms/tests/create/{classroomID}', 'TestsController@create')->name("test.create");
+Route::post('teacher/classrooms/tests/store/{classroomID}', 'TestsController@store')->name("test.store");
+Route::get('teacher/classrooms/tests/edit/{testID}/{classroomID}', 'TestsController@edit')->name("test.edit");
+Route::delete('teacher/classrooms/tests/{testID}/{classroomID}', 'TestsController@destroy')->name("test.destroy");
+Route::patch('teacher/classrooms/courses/{testID}/{classroomID}', 'TestsController@update')->name("test.update");

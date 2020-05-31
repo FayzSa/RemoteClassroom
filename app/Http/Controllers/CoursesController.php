@@ -123,7 +123,7 @@ class CoursesController extends Controller
             ]
         ]);
      return redirect('teacher/classrooms/courses/'.$classroomID);
-     // delete it from classroom table
+     
     }
 
 

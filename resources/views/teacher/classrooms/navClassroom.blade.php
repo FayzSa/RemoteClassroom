@@ -15,13 +15,22 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{ url('/createlive') }}">Create Session</a>
                 </li>
+                
+               <li class="nav-item">
+                <a class="nav-link"  href="{{ route('test.create',['classroomID'=> $classroom->classroomID ?? '']) }}" >Add Test</a>
+              </li>
+         
+              <li class="nav-item">
+                <a class="nav-link"  href="{{ route('classroom.tests',['classroomID'=> $classroom->classroomID ?? '']) }}" >Classroom Tests</a>
+              </li>
+         
                <li class="nav-item">
                   <a class="nav-link"  href="{{ route('course.create',['classroomID'=> $classroom->classroomID ?? '']) }}" >Add Course</a>
                 </li>
            
      
                 <li class="nav-item">
-                    <a class="nav-link"  href="{{ route('classrooms.courses',['classroomID'=>$classroom->classroomID]) }}" >Your Courses</a>                </li>
+                    <a class="nav-link"  href="{{ route('classrooms.courses',['classroomID'=>$classroom->classroomID]) }}" >Classroom Courses</a>                </li>
               
           </ul>
 

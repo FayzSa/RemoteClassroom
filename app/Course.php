@@ -9,12 +9,12 @@ class Course extends Model
 {
     public $course_id,$class_room_id,$comments , $files , $name , $description;
 
-    public function __construct($course_id,$class_room_id,$comments , $file , $name , $description)
+    public function __construct($course_id,$class_room_id,$comments , $files , $name , $description)
     {
         $this->course_id = $course_id;
         $this->class_room_id = $class_room_id;
         $this->comments = $comments;
-        $this->files = $file;
+        $this->files = $files;
         $this->name = $name;
         $this->description = $description;
     }
