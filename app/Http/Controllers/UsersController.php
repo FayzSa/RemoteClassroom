@@ -15,7 +15,11 @@ class UsersController extends Controller
 
     public function __construct()
     {
+<<<<<<< HEAD
     static::$db = self::firestoreDatabaseInstance();
+=======
+    //static::$db = self::firestoreDatabaseInstance();
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     }
 
 

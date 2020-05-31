@@ -31,8 +31,16 @@ Route::get('/joinlive', function () {
 });
 
 Route::post('/live/create','ClassroomsController@create_meeting')->name('live.create');
+<<<<<<< HEAD
 Route::post('/live/join','ClassroomsController@join_meeting')->name('live.join');
 //Route::resource('teacher/classrooms',"ClassroomsController");
+=======
+Route::post('/live/join','ClassroomsController@joinMeeting')->name('live.join');
+Route::post('/live/join','ClassroomsController@join_meeting')->name('live.join');
+//Route::resource('teacher/classrooms',"ClassroomsController");
+
+Route::get('teacher/classrooms/requestes/{classroomID}', 'ClassroomsController@requests')->name('classroom.requests');
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 Route::get('teacher/classrooms', 'ClassroomsController@index');
 Route::get('teacher/classrooms/create', 'ClassroomsController@create');
 Route::post('teacher/classrooms/store', 'ClassroomsController@store')->name("classrooms.store");
@@ -40,6 +48,29 @@ Route::get('teacher/classrooms/edit/{classroomID}', 'ClassroomsController@edit')
 Route::get('teacher/classrooms/show/{classroomID}', 'ClassroomsController@show')->name("classrooms.show");
 Route::patch('teacher/classrooms/{classroomID}', 'ClassroomsController@update')->name("classrooms.update");
 Route::delete('teacher/classrooms/{classroomID}', 'ClassroomsController@destroy')->name("classrooms.destroy");
+<<<<<<< HEAD
+=======
+Route::get('teacher', function(){
+    return view('teacher.index');
+});
+
+Route::patch('teacher/classrooms//requestes/{classroomID}/{studentID}', 'ClassroomsController@addStudentToClass')->name("request.add");
+Route::delete('teacher/classrooms//requestes/{classroomID}/{studentID}', 'ClassroomsController@removeStudentFromClass')->name("request.remove");
+
+
+
+Route::get('teacher/classrooms/courses/{classroomID}', 'CoursesController@index')->name("classrooms.courses");
+Route::get('teacher/classrooms/courses/show/{courseID}/{classroomID}', 'CoursesController@show')->name("classrooms.courses.show");
+Route::delete('teacher/classrooms/courses/{courseID}/{classroomID}', 'CoursesController@destroy')->name("course.destroy");
+Route::get('teacher/classrooms/courses/create/{classroomID}', 'CoursesController@create')->name("course.create");
+Route::post('teacher/classrooms/courses/store/{classroomID}', 'CoursesController@store')->name("course.store");
+Route::get('teacher/classrooms/courses/edit/{courseID}/{classroomID}', 'CoursesController@edit')->name("course.edit");
+Route::patch('teacher/classrooms/{courseID}/{classroomID}', 'CoursesController@update')->name("course.update");
+
+Route::get('teacher/classrooms/courses', function(){
+    return redirect("notfound");
+});
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 
 
 Route::get('student/classrooms', 'Etudiant@index');
@@ -52,3 +83,14 @@ Route::get('/student/classroom/requests','Etudiant@myrequests');
 Route::get('/student/classroom/show/{classroomID}','Etudiant@get_courses_of_classroom')->name('student.classroom.show');
 Route::get('/student/classroom/course/show/{courseID}', 'Etudiant@show_course')->name('student.classroom.course.show');
 Route::post('student/classroom/course/comment','Etudiant@comment')->name('student.classroom.course.comment');
+<<<<<<< HEAD
+=======
+
+Route::get('teacher/classrooms/tests/{classroomID}', 'TestsController@index')->name("classroom.tests");
+Route::get('teacher/classrooms/tests/show/{testID}/{classroomID}', 'TestsController@show')->name("classroom.tests.show");
+Route::get('teacher/classrooms/tests/create/{classroomID}', 'TestsController@create')->name("test.create");
+Route::post('teacher/classrooms/tests/store/{classroomID}', 'TestsController@store')->name("test.store");
+Route::get('teacher/classrooms/tests/edit/{testID}/{classroomID}', 'TestsController@edit')->name("test.edit");
+Route::delete('teacher/classrooms/tests/{testID}/{classroomID}', 'TestsController@destroy')->name("test.destroy");
+Route::patch('teacher/classrooms/courses/{testID}/{classroomID}', 'TestsController@update')->name("test.update");
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097

@@ -26,4 +26,8 @@
     window.location = url;
     }
     }
+<<<<<<< ./resources/views/student/index.blade_LOCAL_8115.php
     @endsection
+=======
+    @endsection
+>>>>>>> ./resources/views/student/index.blade_REMOTE_8115.php

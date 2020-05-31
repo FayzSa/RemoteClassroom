@@ -7,6 +7,13 @@ use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use App\Classroom;
+<<<<<<< HEAD
+=======
+use App\User;
+use DateTime;
+use Google\Cloud\Firestore\FieldValue;
+
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 use Illuminate\Support\Facades\Http;
 
 
@@ -28,7 +35,11 @@ class ClassroomsController extends Controller
            $class = new
            Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
            $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
+<<<<<<< HEAD
            $dataFormsnap["ClassName"] ,$OwenrID
+=======
+           $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"]
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
        );
        array_push($classrooms,$class);
 
@@ -46,8 +57,12 @@ class ClassroomsController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
 
         $classrooms =ClassroomsController::myClasses("9152801b0c7e44838a0d");
+=======
+        $classrooms =$this->myClasses("9152801b0c7e44838a0d");
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         return view('teacher.classrooms.index', compact('classrooms'));
     }
 
@@ -70,7 +85,11 @@ class ClassroomsController extends Controller
     public function store()
     {
         $classroom = Classroom::setNewClass($this->validateReq(),"9152801b0c7e44838a0d");
+<<<<<<< HEAD
         ClassroomsController::storeClass($classroom);
+=======
+        $this->storeClass($classroom);
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         return view('teacher.classrooms.create');
     }
 
@@ -82,9 +101,14 @@ class ClassroomsController extends Controller
      */
     public function show($classroomID)
     {
+<<<<<<< HEAD
         print_r($classroomID);
         $classroom = ClassroomsController::tClass($classroomID);
 
+=======
+       // print_r($classroomID);
+        $classroom = $this->tClass($classroomID);
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         return view("teacher.classrooms.show",compact('classroom'));
     }
 
@@ -96,7 +120,11 @@ class ClassroomsController extends Controller
      */
     public function edit($classroomID)
     {
+<<<<<<< HEAD
         $classroom = ClassroomsController::tClass($classroomID);
+=======
+        $classroom = $this->tClass($classroomID);
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 
         return view("teacher.classrooms.edit",compact('classroom'));
     }
@@ -111,7 +139,11 @@ class ClassroomsController extends Controller
     public function update($classroomID)
     {
 
+<<<<<<< HEAD
         $classroom = ClassroomsController::updateClass($this->validateReq(),$classroomID);
+=======
+        $classroom = $this->updateClass($this->validateReq(),$classroomID);
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         return redirect("teacher/classrooms/show/$classroomID");
 
     }
@@ -128,6 +160,10 @@ class ClassroomsController extends Controller
         ->document($classroomID)
         ->delete();
      return redirect('teacher/classrooms/');
+<<<<<<< HEAD
+=======
+     // delete all courses
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     }
 
 
@@ -143,6 +179,11 @@ class ClassroomsController extends Controller
 
       private function storeClass(Classroom $class)
       {
+<<<<<<< HEAD
+=======
+          $date = new DateTime();
+          $dateNow = $date->format("Y-m-d H:i:s");
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         $docRef =  $this->db->collection('Classrooms')->newDocument();
        // print_r($docRef->id());
        $newClass =  $docRef->set([
@@ -150,7 +191,12 @@ class ClassroomsController extends Controller
           'Courses'  => [],
           'InviteCode' =>  $class->invitCode,
           'OwnerID' => "9152801b0c7e44838a0d",
+<<<<<<< HEAD
           'Students' => []
+=======
+          'Students' => [],
+          'Created_at'=>$dateNow
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         ]);
 
 
@@ -164,7 +210,11 @@ class ClassroomsController extends Controller
     $classroom = new
     Classroom($class->id(), $class->data()["Students"] ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
+<<<<<<< HEAD
     $class->data()["ClassName"] ,"My ID");
+=======
+    $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"]);
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     return $classroom;
 }
 
@@ -184,7 +234,10 @@ public function create_meeting(Request $request){
     $createMeetingParams->setModeratorPassword($password);
     $createMeetingParams->setWelcomeMessage($welcomemessage);
     $createMeetingParams->setLogoutUrl('127.0.0.1:8000');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 //    if ($isRecordingTrue) {
 //        $createMeetingParams->setRecord(true);
 //        $createMeetingParams->setAllowStartStopRecording(true);
@@ -219,8 +272,50 @@ public function join_meeting(Request $request){
  dd('room joined');
 }
 
+<<<<<<< HEAD
 
 private function updateClass($Request , $classroomID)
+=======
+public function requests($classroomID){
+    $classroom = $this->tClass($classroomID);
+    $students = [];
+    foreach($classroom->requests as $request){
+        $student = $this->user($request);
+        array_push($students,$student); 
+    }
+    return view('teacher.classrooms.request',compact('students','classroomID'));
+}
+public function addStudentToClass($classroomID,$studentID){
+    print_r($classroomID);
+    $this->db->collection('Classrooms')->document($classroomID)->update([
+        [
+            "path" => 'Students',
+            'value' => FieldValue::arrayUnion([
+                $studentID])
+        ]
+    ]);
+    $this->db->collection('Classrooms')->document($classroomID)->update([
+        [
+            "path" => 'Requests',
+            'value' => FieldValue::arrayRemove([$studentID])
+        ]
+    ]);
+
+    return redirect("teacher/classrooms/requestes/$classroomID");
+}
+
+public function removeStudentFromClass($classroomID,$studentID){
+    $this->db->collection('Classrooms')->document($classroomID)->update([
+        [
+            "path" => 'Requests',
+            'value' => FieldValue::arrayRemove([$studentID])
+        ]
+    ]);
+    return redirect("teacher/classrooms/requestes/$classroomID");
+}
+
+private function updateCourse($Request , $classroomID)
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 {
 
     $docRef =  $this->db->collection('Classrooms');
@@ -234,4 +329,18 @@ private function updateClass($Request , $classroomID)
 
 }
 
+<<<<<<< HEAD
+=======
+private function user($user_id)
+{
+    $userRef = $this->db->collection('User')->document($user_id)->snapshot();
+    
+    $user = new User($userRef->id(),$userRef->data()["Email"],
+    $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"],
+    $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"],$userRef->data()["Type"]);
+   // print_r($userRef->id());
+   return $user;
+}
+
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +12,14 @@
 </head>
 <body>
 <div class="container mt-5 p-5">
+=======
+@extends('layouts.app')
+
+@section('title','Create Session')
+@section('content')
+<h3>Edit Create Session</h3>
+<div class="container ">
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     <form method="post" action="{{route('live.create')}}">
         @csrf
         <div class="form-group">
@@ -46,5 +55,9 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+<<<<<<< HEAD
 </body>
 </html>
+=======
+@endsection 
+>>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
