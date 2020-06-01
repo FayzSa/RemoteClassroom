@@ -109,15 +109,9 @@ return [
      *
      */
 
-<<<<<<< HEAD
     'cache_store' => env('FIREBASE_CACHE_STORE', 'file')
 
 
 ];
 
 
-=======
-    'cache_store' => env('FIREBASE_CACHE_STORE', 'file'),
-
-];
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097

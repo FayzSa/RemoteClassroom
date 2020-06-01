@@ -2,43 +2,16 @@
 
 namespace App;
 
-<<<<<<< HEAD
 
 use App\Http\Controllers\Controller;
 
-=======
-use App\Http\Controllers\Controller;
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-<<<<<<< HEAD
 
     protected $course_id,$class_room_id,$comments,$name,$description,$files;
 
-=======
-    public $course_id,$class_room_id,$comments , $files , $name , $description;
-
-    public function __construct($course_id,$class_room_id,$comments , $files , $name , $description)
-    {
-        $this->course_id = $course_id;
-        $this->class_room_id = $class_room_id;
-        $this->comments = $comments;
-        $this->files = $files;
-        $this->name = $name;
-        $this->description = $description;
-    }
-
-    public static function setNewCourse($Request)
-    {
-
-        $course = new Course(
-         "","",[],[],$Request['Name'],$Request['Description']
-        );
-        return $course;
-    }
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     /**
      * @return mixed
      */
@@ -87,7 +60,6 @@ class Course extends Model
         $this->description = $description;
     }
 
-<<<<<<< HEAD
     /**
      * @return mixed
      */
@@ -143,8 +115,4 @@ class Course extends Model
         $this->comments = $comments;
     }
 
-=======
-//
-    //
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 }

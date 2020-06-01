@@ -4,7 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-    <h1>Home Teacher</h1>    
+    <h1>Answers</h1>    
     </div>
 
 

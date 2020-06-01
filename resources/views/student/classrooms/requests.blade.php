@@ -13,8 +13,4 @@
              </div>
         </div>
     @endforeach
-<<<<<<< HEAD
  @endsection
-=======
- @endsection
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097

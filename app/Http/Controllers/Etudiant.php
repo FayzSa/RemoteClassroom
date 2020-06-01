@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use App\Classroom;
 use App\Comment;
-=======
-use App\Comment;
-use App\Classroom;
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 use App\Course;
+use App\Test;
 use Google\Cloud\Firestore\FieldValue;
 use Illuminate\Http\Request;
 ///these is the student controller
@@ -45,17 +41,16 @@ class Etudiant extends Controller
 /// these method allows to the student to  exit the class room
 ///you give it the id of student and the class he will exit
 ///
-<<<<<<< HEAD
 ///
 
     public function index(){
-            $id_user = 'moha';
+            $id_user = 'B1Df9tQl7UiACljxusUi';
             $classrooms = $this->get_my_classrooms($id_user);
             return view('student.index',compact('classrooms'));
     }
 
    public function exit_class_room($classromID){
-        $id_of_user = 'moha';
+        $id_of_user = 'B1Df9tQl7UiACljxusUi';
        $docRef =  $this->db->collection('Classrooms');
        $docRef->document($classromID)->update([
            [
@@ -95,43 +90,6 @@ class Etudiant extends Controller
     public function show_course($courseID){
         $course  = $this->get_course($courseID);
         return view('student.classrooms.course',compact('course'));
-=======
-
-public function index(){
-    $id_user = 'moha';
-    $classrooms = $this->get_my_classrooms($id_user);
-    return view('student.index',compact('classrooms'));
-}
-   public function exit_class_room($classromID){
-    $id_of_user = 'moha';
-       $docRef =  $this->db->collection('Classrooms');
-       $docRef->document($classromID)->update([
-        [
-            "path" => 'Students',
-            'value' => FieldValue::arrayRemove([$id_of_user])
-        ]
-    ]);
-    return redirect('student/classrooms');
-   }
-///you give it a class room collection and it returns an array of courses
-///
-
-    public function get_courses_of_classroom($classroom_collection){
-        $courses = array();
-        if($classroom_collection->exists()){
-            $coursesDoc = $classroom_collection->data()['Courses'];
-            foreach ($coursesDoc as $courseDoc){
-                $courseData = $courseDoc->snapshot()->data();
-                $course = new Course('','','','','','');
-                $course->setClassRoomId($courseData['ClassroomId']);
-                $course->setCourseId($courseData['CourseID']);
-                $course_comments = $this->get_comments_of_course($courseDoc->Collection('Comments'));
-                $course->setComments($course_comments);
-                array_push($courses,$course);
-                }
-           }
-        return $courses;
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     }
     ///get all the student courses which the method try to find
     ///  every class the student is registred in and return array of model course
@@ -142,7 +100,6 @@ public function index(){
     ///
     ///
     public function get_my_classrooms($id_of_user){
-<<<<<<< HEAD
     $courses = [];     //these is the list that will be returned
         $classRooms = [];
         $docRef =  $this->db->collection('Classrooms');
@@ -154,24 +111,9 @@ public function index(){
                                            $classroom->data()['Courses'],
                                            $classroom->data()['InviteCode'],
                                            $classroom->data()['ClassName'],
-                                            $classroom->data()['OwnerID']);
-                      array_push($classRooms,$classRoom);
-=======
-        $courses = [];     //these is the list that will be returned
-            $classRooms = [];
-            $docRef =  $this->db->collection('Classrooms');
-            $classrooms = $docRef->where('Students', 'array-contains', $id_of_user)->documents();
-            if($classrooms ->size() > 0) {
-                foreach($classrooms as $classroom){
-                    if($classroom->exists()){
-
-                        $classRoom = new Classroom($classroom->id(),$classroom->data()['Students'],
-                        $classroom->data()['Courses'],
-                        $classroom->data()['InviteCode'],
-                        $classroom->data()['ClassName'],
-                         $classroom->data()['OwnerID'] , []);
-   array_push($classRooms,$classRoom);
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
+                                            $classroom->data()['OwnerID'],null);
+                        $classRoom->setTests($classroom->data()['Tests']);
+                        array_push($classRooms,$classRoom);
 //                     $coursesDoc = $classroom->data()['Courses'];
 //                     foreach ($coursesDoc as $courseDoc){
 //                        $courseData = $courseDoc->snapshot()->data();
@@ -186,36 +128,11 @@ public function index(){
 ////                $comment = $this->test_comment_to_a_course();
 ////                $this->comment_to_a_course($courseDoc->collection('Comments'),$comment);
 //                    }
-<<<<<<< HEAD
                 }
             }
         }
         return $classRooms;
     }
-=======
-}
-}
-}
-return $classRooms;
-}
-    ///find a class room using invitecode
-    ///  it will return the id of class room
-    ///
-    ///
-    public function find_classroom_using_invitecode($invitecode){
-        $docRef =  $this->db->collection('Classrooms');
-        $classrooms = $docRef->where('InviteCode', '=', $invitecode)->documents();
-        if($classrooms ->size() > 0) {
-            foreach($classrooms as $classroom){
-                if($classroom->exists()){
-                   return $classroom->id();
-                }
-            }
-        }
-    }
-
-
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     public function get_my_requests($id_of_user){
 
         $classRooms = [];
@@ -228,11 +145,7 @@ return $classRooms;
                         $classroom->data()['Courses'],
                         $classroom->data()['InviteCode'],
                         $classroom->data()['ClassName'],
-<<<<<<< HEAD
-                        $classroom->data()['OwnerID']);
-=======
-                        $classroom->data()['OwnerID'],[]);
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
+                        $classroom->data()['OwnerID'],null);
                     array_push($classRooms,$classRoom);
 //                     $coursesDoc = $classroom->data()['Courses'];
 //                     foreach ($coursesDoc as $courseDoc){
@@ -251,7 +164,6 @@ return $classRooms;
                 }
             }
         }
-<<<<<<< HEAD
         return $classRooms;
     }
 
@@ -271,12 +183,6 @@ return $classRooms;
         }
     }
 
-=======
-        
-        return $classRooms;
-    }
-
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     ///add to a class room
     /// you can use it fayz i use it onl for testing
     ///after finding the class room the problem is it returns to us a snapshot of
@@ -284,32 +190,24 @@ return $classRooms;
     /// if you find any other solution you can test it thank you
     ///
     public function send_request_to_the_owner_of_classroom($classrom_id){
-        $id_user = 'moha';
+        $id_user = 'B1Df9tQl7UiACljxusUi';
         $this->db->collection('Classrooms')->document($classrom_id)->update([
             [
-<<<<<<< HEAD
-=======
-               
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
                 "path" => 'Requests',
                 'value' => FieldValue::arrayUnion([
                     $id_user])
             ]
         ]);
     }
-<<<<<<< HEAD
     ///a testing methode for get_all_courses methode
 // public function test(){
 //        $this->add_to_a_class_room('c63ef51f1550478bb894','fayz');
 //        return dd('added to request');
 // }
-=======
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
 
 /// we give the collection of the comments inside the course so we can work with it as fast as possible
 /// and it returns an array of comments Model
 /// you can see how i use it in the line 83 in these controller 'Etudiant'
-<<<<<<< HEAD
     private function get_comments_of_course($comments_collection){
         $comments = array();
         $commentsDoc = $comments_collection->documents();
@@ -334,34 +232,6 @@ return $classRooms;
 ///
     public function comment_to_a_course($course_id,Comment $comment){
         $comments_collection = $this->db->collection('Courses')->document($course_id)->Collection('Comments');
-=======
-private function get_comments_of_course($comments_collection){
-    $comments = array();
-    $commentsDoc = $comments_collection->documents();
-    if($commentsDoc->size() > 0){
-        foreach ($commentsDoc as $commentDoc){
-                if($commentDoc->exists()){
-                    $commentDoc = $commentDoc->data();
-                    $comment = new Comment(
-                        $commentDoc->id(),
-                        $commentDoc['Title'],
-                                        $commentDoc['Body'],
-                                         $commentDoc['DateComm'] ,
-                                         $commentDoc['OwenerID']
-
-                                        );
-                    array_push($comments,$comment);
-                }
-        }
-    }
-    return $comments;
-}
-///here we pass the collection of comments of course and the comment model and it will be added to the collection
-///it s the same as methode get_comments_of_course
-///
-public function comment_to_a_course($course_id,Comment $comment){
-    $comments_collection = $this->db->collection('Courses')->document($course_id)->Collection('Comments');
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         $comments_collection->newDocument()->set([
             'Title' => $comment->getTitle(),
             'Body' => $comment->getBody(),
@@ -373,45 +243,24 @@ public function comment_to_a_course($course_id,Comment $comment){
 ///
 /// only amethode for generating a comment i use i oly for tests
 ///
-<<<<<<< HEAD
     public function generate_comment(){
         $comment = new Comment();
-=======
-
-public function comment(Request $request){
-    $title = $request->get('title');
-    $body = $request->get('body');
-    $datecomment = "".now();
-    $courseid = $request->get('courseid');
-    $ownerId = 'moha';
-    $comment = new Comment("",$title,$body,$datecomment,$ownerId);
-    $this->comment_to_a_course($courseid,$comment);
-    return redirect(route('student.classroom.course.show',['courseID'=>$courseid]));
-}
-
-    public function generate_comment(){
-        $comment = new Comment("",'','','','');
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
         $comment->setTitle('test 1');
         $comment->setBody('test body 1');
         $comment->setDateComment('test date comment 1');
         $comment->setOwnerId('owner id test 1');
         return $comment;
     }
-<<<<<<< HEAD
     public function comment(Request $request){
         $title = $request->get('title');
         $body = $request->get('body');
         $datecomment = "".now();
         $courseid = $request->get('courseid');
-        $ownerId = 'moha';
+        $ownerId = 'B1Df9tQl7UiACljxusUi';
         $comment = new Comment($title,$body,$datecomment,$ownerId);
         $this->comment_to_a_course($courseid,$comment);
         return redirect(route('student.classroom.course.show',['courseID'=>$courseid]));
     }
-=======
-
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     /// methode to add a user to a user collection
     /// when we create the user modelthese methode will be modified in chaa alah
     public function add_to_user_collection($user_id,$name,$lastname,$email){
@@ -437,11 +286,7 @@ public function comment(Request $request){
                 'password' => $password
             ]);
             $this->add_to_user_collection($authRef->uid,$name,$lastname,$email);
-<<<<<<< HEAD
             ///findign the class room
-=======
-              ///findign the class room
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
             $classroom = $this->find_classroom_using_invitecode($inviteCode);
             $this->add_to_a_class_room($classroom,$authRef->uid);
             return redirect('/')->with("account created successufly !!");
@@ -461,7 +306,104 @@ public function comment(Request $request){
         return redirect('student/classrooms');
     }
     public function myrequests(){
-    $classrooms = $this->get_my_requests('moha');
+    $classrooms = $this->get_my_requests('B1Df9tQl7UiACljxusUi');
     return view('student.classrooms.requests',compact('classrooms'));
     }
+
+    public function get_my_tests(){
+        $classroomstests = [];
+        $iduser = 'B1Df9tQl7UiACljxusUi';
+          $classrooms = $this->get_my_classrooms($iduser);
+        foreach ($classrooms as $classroom){
+            if(count($classroom->getTests()) < 1)continue;
+                $classroom->tests = $this->allTests($classroom->getClassroomID());
+                    array_push($classroomstests,$classroom);
+        }
+        return view('student.classrooms.tests.index',compact('classroomstests'));
+    }
+
+    public function get_tests_of_classroom($classroomid){
+        $tests = $this->allTests($classroomid);
+        $classroom = $this->get_classroom($classroomid);
+        $classroom->setTests($tests);
+        $classroomstests = [];
+        array_push($classroomstests,$classroom);
+
+        return view('student.classrooms.tests.index',compact('classroomstests'));
+    }
+    private function allTests($classroomID){
+
+        $ClassroomRef =  $this->db->collection('Classrooms');
+        $class =  $ClassroomRef->document($classroomID)->snapshot();
+        $Tests = [];
+        $Tests = $class["Tests"] ?? [];
+        $Testss = [];
+        $TestRef =  $this->db->collection('Tests');
+        foreach($Tests as $testID)
+        {
+
+            $T= $TestRef->document($testID)->snapshot();
+            $Test = new
+            Test($testID, $T->data()["Title"],$T->data()["LastDay"],
+                $T->data()["Description"],$T->data()["Delay"] ,
+                $T->data()["Files"] ,[]
+            );
+            array_push($Testss,$Test);
+
+        }
+
+        return $Testss;
+    }
+
+    public function get_classroom($classroomID)
+    {
+        $docRef =  $this->db->collection('Classrooms');
+        $class = $docRef->document($classroomID)->snapshot();
+        $classroom = new
+        Classroom($class->id(), $class->data()["Students"] ,
+            $class["Courses"] ,$class->data()["InviteCode"] ,
+            $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"]);
+        return $classroom;
+    }
+
+
+    public function get_test($classroomid,$testid){
+        $iduser = 'B1Df9tQl7UiACljxusUi';
+        $test = $this->test($testid);
+        $classroom = $this->get_classroom($classroomid);
+      $answerconrtroller  = new AnswerController();
+     $answertestresult = $answerconrtroller->hasAnswers($iduser,$testid);
+        return view('student.classrooms.tests.show',compact('test',"classroom",'answertestresult'));
+    }
+    private function test($testID)
+    {
+        $answers = [];
+        $testRef =  $this->db->collection('Tests')->document($testID);
+        $answersRef = $testRef->collection('Answers')->documents();
+        // answers will be here
+        /* foreach($answersRef as $ans){
+             $a = new Answer($ans->id(),
+             $ans['Title'],
+             $ans['Body'],
+             $ans['DateComm'],
+             $ans['OwenerID']);
+             array_push($answers,$a);
+         }*/
+        $test = $testRef->snapshot();
+        $testt = new
+        Test($testID, $test->data()["Title"],$test->data()["LastDay"],
+            $test->data()["Description"],$test->data()["Delay"] ,
+            $test->data()["Files"] ,$answers
+        );
+
+        return $testt;
+    }
+//    public function get_all_sessions($idclassroom){
+//        $sessions = $this->db->collection('Session')->where('Classroom','=',$idclassroom)->documents();
+//        foreach($sessions as $session){
+//            if($session->exists()){
+//                return $answer->id();
+//            }
+//        }
+//    }
 }

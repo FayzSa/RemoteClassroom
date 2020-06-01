@@ -9,10 +9,11 @@
          <div class="card" style="width:400px">
              <div class="card-body">
                  <h4 class="card-title">{{$classroom->className}}</h4><br>
-                 <p class="card-text">{{count($classroom->courses)}}</p>
+                 <p class="card-text">courses :  {{count($classroom->courses)}} tests : {{count($classroom->tests)}} </p>
                  <button disabled="disabled" class="btn btn-success">join live</button>
                  <button onclick="exit_classroom('{{$classroom->classroomID}}')" class="btn btn-primary">exit clasroom</button>
                  <a href="{{route('student.classroom.show',['classroomID' => $classroom->classroomID])}}" class="btn btn-primary">view courses</a>
+                 <a href="{{route('student.classroom.tests',['classroomid' => $classroom->classroomID])}}" class="btn btn-primary">view tests</a>
 
              </div>
          </div>
@@ -26,8 +27,4 @@
     window.location = url;
     }
     }
-<<<<<<< ./resources/views/student/index.blade_LOCAL_8115.php
     @endsection
-=======
-    @endsection
->>>>>>> ./resources/views/student/index.blade_REMOTE_8115.php

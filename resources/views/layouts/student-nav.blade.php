@@ -20,6 +20,9 @@
                     <a class="nav-link"  href="{{ url('student/classrooms') }}" >Your Classes</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link"  href="{{ url('student/classrooms/tests/all') }}" >Your tests</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link"  href="{{ url('/student/classroom/requests') }}" >Your Requests</a>
                 </li>
 
@@ -46,10 +49,7 @@
                           <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                               { { Auth::user()->name }} <span class="caret"></span>
                           </a>
-<<<<<<< HEAD
 
-=======
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="{ { route('logout') }}"
                                  onclick="event.preventDefault();
@@ -65,8 +65,4 @@
             </ul>
         </div>
     </div>
-<<<<<<< HEAD
 </nav>
-=======
-</nav>
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097

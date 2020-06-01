@@ -11,8 +11,4 @@
         @csrf
         <input type="submit" class='btn btn-primary'value="Join">
     </form>
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097

@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>Document</title>
-</head>
-<body>
-<div class="container mt-5 p-5">
-=======
 @extends('layouts.app')
 
 @section('title','Create Session')
 @section('content')
 <h3>Edit Create Session</h3>
 <div class="container ">
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
     <form method="post" action="{{route('live.create')}}">
         @csrf
         <div class="form-group">
@@ -55,9 +39,4 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<<<<<<< HEAD
-</body>
-</html>
-=======
 @endsection 
->>>>>>> 4c1b12788c3ba03083bdb7310c36847d81907097
