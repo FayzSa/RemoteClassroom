@@ -10,8 +10,18 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
 
-    protected $course_id,$class_room_id,$comments,$name,$description,$files;
+    public $course_id,$class_room_id,$comments,$name,$description,$files;
 
+    
+    public function __construct($course_id,$class_room_id,$comments , $files , $name , $description)
+    {
+        $this->course_id = $course_id;
+        $this->class_room_id = $class_room_id;
+        $this->comments = $comments;
+        $this->files = $files;
+        $this->name = $name;
+        $this->description = $description;
+    }
     /**
      * @return mixed
      */
