@@ -20,5 +20,5 @@ class User extends Model
         $this->type= $type;
     }
 
-    
+
 }

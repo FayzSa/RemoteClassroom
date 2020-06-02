@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    public $comID, $title,$body,$dateComment,$ownerId;
+    protected $title,$body,$dateComment,$ownerId;
 
 
-    public function __construct($comID,$title,$body,$dateComment,$ownerId){
-        $this->comID = $comID;
+    public function __construct($title,$body,$dateComment,$ownerId){
         $this->title = $title;
         $this->body = $body;
         $this->dateComment = $dateComment;
@@ -82,6 +81,4 @@ class Comment extends Model
         $this->ownerId = $ownerId;
     }
 
-
-    //
 }

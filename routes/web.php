@@ -31,9 +31,10 @@ Route::get('/joinlive', function () {
 });
 
 Route::post('/live/create','ClassroomsController@create_meeting')->name('live.create');
-Route::post('/live/join','ClassroomsController@joinMeeting')->name('live.join');
 Route::post('/live/join','ClassroomsController@join_meeting')->name('live.join');
 //Route::resource('teacher/classrooms',"ClassroomsController");
+
+
 
 Route::get('teacher/classrooms/requestes/{classroomID}', 'ClassroomsController@requests')->name('classroom.requests');
 Route::get('teacher/classrooms', 'ClassroomsController@index');
@@ -66,7 +67,7 @@ Route::get('teacher/classrooms/courses', function(){
 
 
 Route::get('student/classrooms', 'Etudiant@index');
-//Route::post('student/classroom/join','');
+
 Route::get('/tests', 'Etudiant@get_course');
 Route::get('/student/classroom/exit/{classromID}','Etudiant@exit_class_room')->name('student.classroom.exit');
 Route::get('/student/classroom/join','Etudiant@join_class_room_view')->name('student.classroom.joinview');
@@ -75,6 +76,7 @@ Route::get('/student/classroom/requests','Etudiant@myrequests');
 Route::get('/student/classroom/show/{classroomID}','Etudiant@get_courses_of_classroom')->name('student.classroom.show');
 Route::get('/student/classroom/course/show/{courseID}', 'Etudiant@show_course')->name('student.classroom.course.show');
 Route::post('student/classroom/course/comment','Etudiant@comment')->name('student.classroom.course.comment');
+
 
 Route::get('teacher/classrooms/tests/{classroomID}', 'TestsController@index')->name("classroom.tests");
 Route::get('teacher/classrooms/tests/show/{testID}/{classroomID}', 'TestsController@show')->name("classroom.tests.show");
@@ -92,3 +94,18 @@ Route::get('teacher/classrooms/sessions/edit/{sessionID}/{classroomID}', 'Sessio
 Route::post('teacher/classrooms/sessions/store/{classroomID}', 'SessionsController@store')->name("sessions.store");
 Route::patch('teacher/classrooms/sessions/{sessionID}/{classroomID}', 'SessionsController@update')->name("session.update");
 Route::delete('teacher/classrooms/sessions/{sessionID}/{classroomID}', 'SessionsController@destroy')->name("session.destroy");
+Route::patch('teacher/classrooms/courses/{testID}/{classroomID}', 'TestsController@update')->name("test.update");
+
+
+Route::get('student/classrooms/tests/all', 'Etudiant@get_my_tests')->name('student.classroom.alltests');
+Route::get('student/classrooms/{classroomid}/tests/{testid}','Etudiant@get_test')->name('student.classroom.tests.show');
+Route::get('student/classrooms/{classroomid}/tests/show/all','Etudiant@get_tests_of_classroom')->name('student.classroom.tests');
+
+
+Route::get('student/classrooms/tests/{testid}/answer/show/{answerid}', 'AnswerController@show')->name("student.classroom.test.answer");
+Route::get('student/classrooms/tests/{testid}/answer/create', 'AnswerController@create')->name("answer.create");
+Route::post('student/classrooms/tests/{testid}/answer/store', 'AnswerController@store')->name("answer.store");
+Route::get('student/classrooms/tests/{testid}/answer/edit/{answerid}', 'AnswerController@edit')->name("answer.edit");
+Route::delete('student/classrooms/tests/{testid}/answer/delete/{answerid}', 'AnswerController@destroy')->name("answer.destroy");
+Route::patch('student/classrooms/tests/{testid}/answer/update/{answerid}', 'AnswerController@update')->name("answer.update");
+

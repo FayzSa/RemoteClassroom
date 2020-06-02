@@ -46,7 +46,7 @@ class TestsController extends Controller
         $filesArray = $request->file('attach');
         $folderName="Tests/$classroomID";
         $file = $this->uploadFileToStorage($folderName,$filesArray);
-    
+
     $test = Test::setNewTest($this->validateReq());
     $testID = $this->storeTest($test,$classroomID,$file);
     $test = $this->test($testID);
@@ -73,9 +73,10 @@ class TestsController extends Controller
      */
     public function edit($testID,$classroomID)
     {
-        
+
         $test = $this->test($testID);
         return view("teacher.classrooms.tests.edit",compact("test","classroomID"));
+
     }
 
     /**
@@ -87,15 +88,15 @@ class TestsController extends Controller
      */
     public function update(Request $request, $testID,$classroomID)
     {
-        
+
         $fileArray =array();
         $filesArray = $request->file('attach');
         $folderName="Tests/$classroomID";
         $file = $this->uploadFileToStorage($folderName,$filesArray);
-        $this->updateTest($this->validateRe(),$testID,$file); 
+        $this->updateTest($this->validateRe(),$testID,$file);
         $test = $this->test($testID);
         return view("teacher.classrooms.tests.show",compact("test","classroomID"));
-        
+
     }
 
     /**
@@ -108,7 +109,7 @@ class TestsController extends Controller
     {
         $docRef =  $this->db->collection('Tests')
         ->document($testID);
-           
+
         $answersRef = $docRef->collection('Answer')->documents();
         foreach($answersRef as $answer){
             $docRef->collection('Answer')->document($answer->id())->delete();
@@ -123,9 +124,8 @@ class TestsController extends Controller
      return redirect('teacher/classrooms/tests/'.$classroomID);
     }
 
-
     private function allTests($classroomID){
-       
+
         $ClassroomRef =  $this->db->collection('Classrooms');
         $class =  $ClassroomRef->document($classroomID)->snapshot();
         $Tests = [];
@@ -134,7 +134,7 @@ class TestsController extends Controller
        $TestRef =  $this->db->collection('Tests');
        foreach($Tests as $testID)
        {
-           
+
         $T= $TestRef->document($testID)->snapshot();
            $Test = new
            Test($testID, $T->data()["Title"],$T->data()["LastDay"],
@@ -144,14 +144,14 @@ class TestsController extends Controller
        array_push($Testss,$Test);
 
        }
-      
+
       return $Testss;
     }
 
 
     private function test($testID)
     {
-        
+
         $answers = [];
         $testRef =  $this->db->collection('Tests')->document($testID);
         $answersRef = $testRef->collection('Answers')->documents();
@@ -170,7 +170,7 @@ class TestsController extends Controller
            $test->data()["Description"],$test->data()["Delay"] ,
            $test->data()["Files"] ,$answers
        );
-        
+
         return $testt;
     }
 
@@ -184,7 +184,7 @@ class TestsController extends Controller
           ]);
 
       }
-    
+
     private function validateReq(){
 
         return
@@ -196,12 +196,12 @@ class TestsController extends Controller
           ]);
 
       }
-    
-    
+
+
     private function storeTest(Test $test,$classroomID,$file){
         $date = new DateTime('now +'.$test->delay.' day');
         $delay = $date->format("Y-m-d H:i:s");
-       
+
         $docRef =  $this->db->collection('Tests')->newDocument();
         $newTest =  $docRef->set([
            'Files' => $file,
@@ -232,21 +232,21 @@ class TestsController extends Controller
            $rand = Str::random();
             $name = $files[$i]->getClientOriginalName();
             $filename =  fopen($files[$i]->getRealPath(), 'r');
-             
+
             // Upload file
             $object = $defaultBucket->upload($filename, [
-                'name' => $type.'/'.$rand.$name 
+                'name' => $type.'/'.$rand.$name
             ]);
-            
+
              $object->update(
                  ['acl' => []],
                   ['predefinedAcl' => 'PUBLICREAD']
              );
              $url ="https://storage.googleapis.com/elearningapp-30a10.appspot.com/".$type."/".$rand.$name;
              array_push($fileArray,$url);
-            
 
-             
+
+
           }
         //  print_r($fileArray);
           return $fileArray;
@@ -254,13 +254,13 @@ class TestsController extends Controller
 
 
 
-           
+
 private function updateTest($Request , $testID , $file)
 {
-    
+
     $date = new DateTime('now +'.$Request['Delay'].' day');
     $delay = $date->format("Y-m-d H:i:s");
-   
+
     $docRef =  $this->db->collection('Tests');
     if($file){
     $test = $docRef->document($testID)->update(
