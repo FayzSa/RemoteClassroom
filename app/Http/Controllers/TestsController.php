@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Test;
 use DateTime;
+use App\Answer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -154,16 +155,16 @@ class TestsController extends Controller
 
         $answers = [];
         $testRef =  $this->db->collection('Tests')->document($testID);
-        $answersRef = $testRef->collection('Answers')->documents();
-        // answers will be here
-       /* foreach($answersRef as $ans){
-            $a = new Answer($ans->id(),
-            $ans['Title'],
-            $ans['Body'],
-            $ans['DateComm'],
-            $ans['OwenerID']);
-            array_push($answers,$a);
-        }*/
+        $answersRefs = $testRef->collection('Answers')->documents();
+        foreach($answersRefs as $answerRef){
+            $answer  = new Answer($answerRef['AnswerDate'],$answerRef['Description'],
+            $answerRef['FilesAnswer'],$answerRef['StudentID'],
+            $answerRef['StudentName'],$answerRef['Title'],
+            $answerRef['AnswerID']
+        );
+
+            array_push($answers,$answer);
+        }
         $test = $testRef->snapshot();
         $testt = new
         Test($testID, $test->data()["Title"],$test->data()["LastDay"],
