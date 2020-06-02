@@ -58,7 +58,7 @@ Route::delete('teacher/classrooms/courses/{courseID}/{classroomID}', 'CoursesCon
 Route::get('teacher/classrooms/courses/create/{classroomID}', 'CoursesController@create')->name("course.create");
 Route::post('teacher/classrooms/courses/store/{classroomID}', 'CoursesController@store')->name("course.store");
 Route::get('teacher/classrooms/courses/edit/{courseID}/{classroomID}', 'CoursesController@edit')->name("course.edit");
-Route::patch('teacher/classrooms/{courseID}/{classroomID}', 'CoursesController@update')->name("course.update");
+Route::patch('teacher/classrooms/courses/{courseID}/{classroomID}', 'CoursesController@update')->name("course.update");
 
 Route::get('teacher/classrooms/courses', function(){
     return redirect("notfound");
@@ -82,4 +82,13 @@ Route::get('teacher/classrooms/tests/create/{classroomID}', 'TestsController@cre
 Route::post('teacher/classrooms/tests/store/{classroomID}', 'TestsController@store')->name("test.store");
 Route::get('teacher/classrooms/tests/edit/{testID}/{classroomID}', 'TestsController@edit')->name("test.edit");
 Route::delete('teacher/classrooms/tests/{testID}/{classroomID}', 'TestsController@destroy')->name("test.destroy");
-Route::patch('teacher/classrooms/courses/{testID}/{classroomID}', 'TestsController@update')->name("test.update");
+Route::patch('teacher/classrooms/tests/{testID}/{classroomID}', 'TestsController@update')->name("test.update");
+
+
+Route::get('teacher/classrooms/sessions/{classroomID}', 'SessionsController@index')->name("classroom.sessions");
+Route::get('teacher/classrooms/sessions/show/{sessionID}/{classroomID}', 'SessionsController@show')->name("classroom.sessions.show");
+Route::get('teacher/classrooms/sessions/create/{classroomID}', 'SessionsController@create')->name("session.create");
+Route::get('teacher/classrooms/sessions/edit/{sessionID}/{classroomID}', 'SessionsController@edit')->name("session.edit");
+Route::post('teacher/classrooms/sessions/store/{classroomID}', 'SessionsController@store')->name("sessions.store");
+Route::patch('teacher/classrooms/sessions/{sessionID}/{classroomID}', 'SessionsController@update')->name("session.update");
+Route::delete('teacher/classrooms/sessions/{sessionID}/{classroomID}', 'SessionsController@destroy')->name("session.destroy");

@@ -7,8 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                  <a class="nav-link active" href="/">Annonce Session</a>
+              <a class="nav-link active" href="{{route('classroom.sessions',['classroomID'=> $classroom->classroomID ?? ''])}}">Sessions Annonces</a>
                 </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('session.create',['classroomID'=> $classroom->classroomID ?? '']) }}">Create Annonce</a>
+                  </li>
+                  
                 <li class="nav-item">
                     <a class="nav-link active" href="{{route('classroom.requests',['classroomID'=> $classroom->classroomID ?? ''])}}">Requests</a>
                   </li>

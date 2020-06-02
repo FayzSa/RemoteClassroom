@@ -6,7 +6,6 @@ use App\Test;
 use DateTime;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 use Google\Cloud\Firestore\FieldValue;

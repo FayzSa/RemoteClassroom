@@ -167,8 +167,14 @@ class ClassroomsController extends Controller
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->snapshot();
 
+    $students = [];
+    foreach($class->data()["Students"] as $student)
+    {
+        $std = $this->user($student);
+        array_push($students,$std);
+    }
     $classroom = new
-    Classroom($class->id(), $class->data()["Students"] ,
+    Classroom($class->id(), $students ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
     $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"]);
     return $classroom;
@@ -262,7 +268,7 @@ public function removeStudentFromClass($classroomID,$studentID){
     return redirect("teacher/classrooms/requestes/$classroomID");
 }
 
-private function updateCourse($Request , $classroomID)
+private function updateClass($Request , $classroomID)
 {
 
     $docRef =  $this->db->collection('Classrooms');
@@ -283,7 +289,6 @@ private function user($user_id)
     $user = new User($userRef->id(),$userRef->data()["Email"],
     $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"],
     $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"],$userRef->data()["Type"]);
-   // print_r($userRef->id());
    return $user;
 }
 
