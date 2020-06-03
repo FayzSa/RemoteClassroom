@@ -22,6 +22,16 @@ class Course extends Model
         $this->name = $name;
         $this->description = $description;
     }
+    
+     public static function setNewCourse($Request)
+    {
+
+        $course = new Course(
+         "","",[],[],$Request['Name'],$Request['Description']
+        );
+        return $course;
+    }
+    
     /**
      * @return mixed
      */
