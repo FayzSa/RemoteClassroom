@@ -109,3 +109,8 @@ Route::get('student/classrooms/tests/{testid}/answer/edit/{answerid}', 'AnswerCo
 Route::delete('student/classrooms/tests/{testid}/answer/delete/{answerid}', 'AnswerController@destroy')->name("answer.destroy");
 Route::patch('student/classrooms/tests/{testid}/answer/update/{answerid}', 'AnswerController@update')->name("answer.update");
 
+
+Route::get('student/classrooms/{classroomid}/sessions/{sessionid}', 'Etudiant@get_session_view')->name('student.classroom.session');
+Route::get('student/classrooms/sessions/all', 'Etudiant@get_all_my_sessions')->name('student.classroom.session.all');
+
+Route::get('student/classrooms/{classroomid}/sessions','Etudiant@getsessions')->name('student.classroom.sessions');

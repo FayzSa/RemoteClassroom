@@ -40,7 +40,7 @@ class SessionsController extends Controller
      */
     public function store(Request $request,$classroomID)
     {
-       
+
         $annonce = Sessions::setNewAnnonce($this->validateRe());
         $new = $this->annocceSession($annonce,$classroomID);
         $session = $this->session($new);
@@ -56,7 +56,7 @@ class SessionsController extends Controller
      */
     public function show($sessionID,$classroomID)
     {
-        
+
         $session = $this->session($sessionID);
         return view("teacher.classrooms.sessions.show",compact("session","classroomID"));
     }
@@ -82,7 +82,7 @@ class SessionsController extends Controller
      */
     public function update(Request $request, $sessionID,$classroomID)
     {
-        $this->updateSession($this->validateRe(),$sessionID); 
+        $this->updateSession($this->validateRe(),$sessionID);
         $session = $this->session($sessionID);
         return view("teacher.classrooms.sessions.show",compact("session","classroomID"));
     }
@@ -98,7 +98,7 @@ class SessionsController extends Controller
         $docRef =  $this->db->collection('Session')
         ->document($sessionID);
         $docRef->delete();
-      
+
      return redirect('teacher/classrooms/sessions/'.$classroomID);
     }
 
@@ -120,7 +120,7 @@ class SessionsController extends Controller
     private function validateRe(){
         $now = new DateTime();
         $day = $now->format("d");
-      
+
         return
           request()->validate([
             'Hour'=>'required|min:5|max:5',
@@ -128,43 +128,44 @@ class SessionsController extends Controller
             'Subject' => 'required|min:15'
           ]);
 
-          
-          
+
+
       }
 
-      private function allSessions($classroomID){
-       
+      public function allSessions($classroomID){
+
         $SessionRef =  $this->db->collection('Session');
-        $snapshot = $SessionRef->where('ClassroomID','==',$classroomID)->documents();
+        $snapshot = $SessionRef->where('ClassroomID','==',$classroomID)->orderBy('DateSession','DESC')->documents();
         $Sessions = [];
         foreach($snapshot as $dataFormsnap)
         {
+            if(!$dataFormsnap->exists())continue;
             $Session = new
             Sessions($dataFormsnap->id(), $dataFormsnap["DateSession"] ,
             $dataFormsnap["Day"] ,$dataFormsnap["Hour"] ,
             $dataFormsnap["Subject"] ,$classroomID
         );
         array_push($Sessions,$Session);
- 
+
         }
-      
+
       return $Sessions;
     }
 
-    
-    private function session($sessionID)
+
+    public function session($sessionID)
     {
-        
-        
+
+
         $sessionRef =  $this->db->collection('Session')->document($sessionID);
-      
+
         $sessionSnap = $sessionRef->snapshot();
         $session = new
         Sessions($sessionID, $sessionSnap->data()["DateSession"],$sessionSnap->data()["Day"],
            $sessionSnap->data()["Hour"],$sessionSnap->data()["Subject"] ,
            $sessionSnap->data()["ClassroomID"]
        );
-        
+
         return $session;
     }
 
@@ -172,13 +173,13 @@ class SessionsController extends Controller
 
     private function updateSession($Request , $sessionID )
 {
-   
+
     $now = new DateTime();
     $year = $now->format("Y");
     $month = $now->format("M");
     $Date = "$year - ". $month ." - ".$Request["Day"]." - ".$Request["Hour"];
     $docRef =  $this->db->collection('Session');
-    
+
     $session = $docRef->document($sessionID)->update(
         [
 ['path' => 'Subject','value' => $Request['Subject']],
@@ -189,5 +190,5 @@ class SessionsController extends Controller
 ]
     );
 }
-      
+
 }

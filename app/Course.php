@@ -22,8 +22,8 @@ class Course extends Model
         $this->name = $name;
         $this->description = $description;
     }
-
-    public static function setNewCourse($Request)
+    
+     public static function setNewCourse($Request)
     {
 
         $course = new Course(
@@ -31,7 +31,7 @@ class Course extends Model
         );
         return $course;
     }
-    
+
     /**
      * @return mixed
      */

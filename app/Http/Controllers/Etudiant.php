@@ -77,14 +77,15 @@ class Etudiant extends Controller
     public function get_course($course_id ){
         $docRef =  $this->db->collection('Courses')->document($course_id);
         $courseData = $docRef->snapshot()->data();
-        $course = new Course();
-        $course->setClassRoomId($courseData['ClassroomId']);
-        $course->setCourseId($courseData['CourseID']);
-        $course->setName($courseData['Name']);
-        $course->setDescription($courseData['Description']);
-        $course->setFiles($courseData['attach']);
-        $course_comments = $this->get_comments_of_course($docRef->Collection('Comments'));
-        $course->setComments($course_comments);
+        $course = new Course($courseData['CourseID'],$courseData['ClassroomId'],$this->get_comments_of_course($docRef->Collection('Comments')),
+            $courseData['attach'],$courseData['Name'],$courseData['Description']);
+//        $course->setClassRoomId();
+//        $course->setCourseId();
+//        $course->setName();
+//        $course->setDescription();
+//        $course->setFiles();
+//        $course_comments = ;
+//        $course->setComments($course_comments);
        return $course ;
     }
     public function show_course($courseID){
@@ -114,20 +115,7 @@ class Etudiant extends Controller
                                             $classroom->data()['OwnerID'],null);
                         $classRoom->setTests($classroom->data()['Tests']);
                         array_push($classRooms,$classRoom);
-//                     $coursesDoc = $classroom->data()['Courses'];
-//                     foreach ($coursesDoc as $courseDoc){
-//                        $courseData = $courseDoc->snapshot()->data();
-//                        $course = new Course();
-//                        $course->setClassRoomId($courseData['ClassroomId']);
-//                        $course->setCourseId($courseData['CourseID']);
-//                        $course_comments = $this->get_comments_of_course($courseDoc->Collection('Comments'));
-//                        $course->setComments($course_comments);
-//                        array_push($courses,$course);
-// ///you can see here how i use comment _to_a_course_methode
-// ///
-////                $comment = $this->test_comment_to_a_course();
-////                $this->comment_to_a_course($courseDoc->collection('Comments'),$comment);
-//                    }
+
                 }
             }
         }
@@ -380,15 +368,6 @@ class Etudiant extends Controller
         $answers = [];
         $testRef =  $this->db->collection('Tests')->document($testID);
         $answersRef = $testRef->collection('Answers')->documents();
-        // answers will be here
-        /* foreach($answersRef as $ans){
-             $a = new Answer($ans->id(),
-             $ans['Title'],
-             $ans['Body'],
-             $ans['DateComm'],
-             $ans['OwenerID']);
-             array_push($answers,$a);
-         }*/
         $test = $testRef->snapshot();
         $testt = new
         Test($testID, $test->data()["Title"],$test->data()["LastDay"],
@@ -398,12 +377,33 @@ class Etudiant extends Controller
 
         return $testt;
     }
-//    public function get_all_sessions($idclassroom){
-//        $sessions = $this->db->collection('Session')->where('Classroom','=',$idclassroom)->documents();
-//        foreach($sessions as $session){
-//            if($session->exists()){
-//                return $answer->id();
-//            }
-//        }
-//    }
+public function get_my_sessions($classroomid){
+        $sessioncontroller = new SessionsController();
+        $mysessions = $sessioncontroller->allSessions($classroomid);
+return $mysessions ?? [];
+}
+public function getsessions($classroomid){
+        $sessions = $this->get_my_sessions($classroomid);
+        return view('student.sessions.index',compact('sessions','classroomid'));
+}
+public function get_all_my_sessions(){
+        $sessions = [];
+        $iduser = 'B1Df9tQl7UiACljxusUi';
+        $classrooms = $this->get_my_classrooms($iduser);
+        foreach ($classrooms as $classroom){
+            $sessions_of_classroom = $this->get_my_sessions($classroom->classroomID);
+//            print_r($sessions_of_classroom[0].'<br>');
+            if(empty($sessions_of_classroom))continue;
+//            array_push($sessions,$sessions_of_classroom);
+            $sessions = array_merge($sessions,$sessions_of_classroom);
+//            break;
+        }
+        return view('student.sessions.index',compact('sessions'));
+}
+public function get_session_view($classroomid,$sessionid){
+        $sessioncontroller = new SessionsController();
+        $session = $sessioncontroller->session($sessionid);
+        $classroom = $this->get_classroom($classroomid);
+        return view('student.sessions.show',compact('session','classroom'));
+}
 }
