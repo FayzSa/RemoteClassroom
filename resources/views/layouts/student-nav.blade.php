@@ -25,6 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link"  href="{{ url('/student/classroom/requests') }}" >Your Requests</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link"  href="{{ url('/student/classrooms/sessions/all') }}" >Your sessions</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link"  href="{ {url('/users')}}" >Profile</a>

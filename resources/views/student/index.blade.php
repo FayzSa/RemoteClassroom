@@ -13,7 +13,8 @@
                  <button disabled="disabled" class="btn btn-success">join live</button>
                  <button onclick="exit_classroom('{{$classroom->classroomID}}')" class="btn btn-primary">exit clasroom</button>
                  <a href="{{route('student.classroom.show',['classroomID' => $classroom->classroomID])}}" class="btn btn-primary">view courses</a>
-                 <a href="{{route('student.classroom.tests',['classroomid' => $classroom->classroomID])}}" class="btn btn-primary">view tests</a>
+                 <a href="{{route('student.classroom.tests',['classroomid' => $classroom->classroomID])}}" class="btn mt-2 btn-primary">view tests</a>
+                 <a href="{{route('student.classroom.sessions',['classroomid' => $classroom->classroomID])}}" class="btn mt-2 btn-primary">view sessions</a>
 
              </div>
          </div>
