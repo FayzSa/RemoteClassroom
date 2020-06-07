@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+       
+        view()->composer(
+            'layouts.admin', 
+            function ($view) {
+                $admin= new AdminController();
+                $data=$admin->myProfile(session('uid'));
+                $view->with('data',$data);
+            }
+        );
     }
 }
