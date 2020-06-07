@@ -113,6 +113,7 @@ class TestsController extends Controller
 
         $answersRef = $docRef->collection('Answer')->documents();
         foreach($answersRef as $answer){
+            
             $docRef->collection('Answer')->document($answer->id())->delete();
         }
         $docRef->delete();
@@ -136,6 +137,7 @@ class TestsController extends Controller
        foreach($Tests as $testID)
        {
 
+        if( $TestRef->document($testID)->exists()){
         $T= $TestRef->document($testID)->snapshot();
            $Test = new
            Test($testID, $T->data()["Title"],$T->data()["LastDay"],
@@ -143,7 +145,7 @@ class TestsController extends Controller
            $T->data()["Files"] ,[]
        );
        array_push($Testss,$Test);
-
+    }
        }
 
       return $Testss;
@@ -155,8 +157,9 @@ class TestsController extends Controller
 
         $answers = [];
         $testRef =  $this->db->collection('Tests')->document($testID);
-        $answersRefs = $testRef->collection('Answers')->documents();
+        $answersRefs = $testRef->collection('Answers')->orderBy('AnswerDate','DESC')->documents();
         foreach($answersRefs as $answerRef){
+            if($answerRef->exists()){
             $answer  = new Answer($answerRef['AnswerDate'],$answerRef['Description'],
             $answerRef['FilesAnswer'],$answerRef['StudentID'],
             $answerRef['StudentName'],$answerRef['Title'],
@@ -164,7 +167,7 @@ class TestsController extends Controller
         );
 
             array_push($answers,$answer);
-        }
+        }}
         $test = $testRef->snapshot();
         $testt = new
         Test($testID, $test->data()["Title"],$test->data()["LastDay"],

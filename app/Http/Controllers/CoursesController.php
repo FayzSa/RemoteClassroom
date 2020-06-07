@@ -142,13 +142,14 @@ class CoursesController extends Controller
        {
            
         $co = $docRefs->document($courseID)->snapshot();
+        if( $docRefs->document($courseID)->exists()){
            $course = new
            Course($courseID, $classroomID,
            [] ,$co->data()["attach"] ,
            $co->data()["Name"] , $co->data()["Description"]
        );
        array_push($coursess,$course);
-
+    }
        }
       
       return $coursess;
@@ -161,13 +162,14 @@ class CoursesController extends Controller
         $courseRef =  $this->db->collection('Courses')->document($courseID);
         $commentsRef = $courseRef->collection('Comments')->documents();
         foreach($commentsRef as $comment){
+            if($comment->exists()){
             $com = new Comment($comment->id(),
             $comment['Title'],
             $comment['Body'],
             $comment['DateComm'],
             $comment['OwenerID']);
             array_push($comments,$com);
-        }
+        }}
         $co = $courseRef->snapshot();
         $course =
         new

@@ -29,13 +29,14 @@ class ClassroomsController extends Controller
        $snapshot = $docRef->where('OwnerID','==',$OwenrID)->documents();
        foreach($snapshot as $dataFormsnap)
        {
+        if($dataFormsnap->exists()){
            $class = new
            Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
            $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
            $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"]
        );
        array_push($classrooms,$class);
-
+    }
        }
        //print_r($classrooms);
       return $classrooms;
@@ -50,7 +51,7 @@ class ClassroomsController extends Controller
 
     public function index()
     {
-        $classrooms =$this->myClasses("9152801b0c7e44838a0d");
+        $classrooms = $this->myClasses("9152801b0c7e44838a0d");
         return view('teacher.classrooms.index', compact('classrooms'));
     }
 
@@ -170,9 +171,11 @@ class ClassroomsController extends Controller
     $students = [];
     foreach($class->data()["Students"] as $student)
     {
+        
         $std = $this->user($student);
+        if($std!=null){
         array_push($students,$std);
-    }
+    } }
     $classroom = new
     Classroom($class->id(), $students ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
@@ -234,13 +237,17 @@ public function requests($classroomID){
     $classroom = $this->tClass($classroomID);
     $students = [];
     foreach($classroom->requests as $request){
+
         $student = $this->user($request);
-        array_push($students,$student); 
+        if($student!=null){
+            array_push($students,$student);
+        }
+       
     }
     return view('teacher.classrooms.request',compact('students','classroomID'));
 }
 public function addStudentToClass($classroomID,$studentID){
-    print_r($classroomID);
+    
     $this->db->collection('Classrooms')->document($classroomID)->update([
         [
             "path" => 'Students',
@@ -284,12 +291,14 @@ private function updateClass($Request , $classroomID)
 
 private function user($user_id)
 {
+    $user = null;
     $userRef = $this->db->collection('User')->document($user_id)->snapshot();
-    
+    if($userRef->exists()){
     $user = new User($userRef->id(),$userRef->data()["Email"],
     $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"],
     $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"],$userRef->data()["Type"]);
-   return $user;
+    }
+    return $user;
 }
 
 }

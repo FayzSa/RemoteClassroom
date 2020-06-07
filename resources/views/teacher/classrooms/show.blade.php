@@ -19,4 +19,22 @@
         </div>
 </div>
 
+<div class="col-12">
+    <h1>Students</h1>    
+    </div>
+@foreach ($classroom->students as $student)
+        <div class="row">
+            <div class="col-2">
+                {{$student->userID}}
+            </div>
+        
+            <div class="col-4">
+            <a href="{ { route('classrooms.show',['classroomID'=>$student->classroomID]) }}"> {{$student->firstName}}</a>
+                </div>
+        
+           
+        
+        </div>    
+        @endforeach
+
 @endsection
