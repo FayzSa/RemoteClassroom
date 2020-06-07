@@ -19,6 +19,7 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->db = app('firebase.firestore')->database();
+        $this->auth = app('firebase.auth');
     }
 
 

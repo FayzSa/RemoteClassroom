@@ -20,6 +20,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "kreait/firebase-php": "^5.2",
         "kreait/laravel-firebase": "^2.0",
+        "laracasts/utilities": "^3.1",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0"
     },
