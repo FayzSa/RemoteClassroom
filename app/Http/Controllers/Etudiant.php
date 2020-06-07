@@ -112,7 +112,7 @@ class Etudiant extends Controller
                                            $classroom->data()['Courses'],
                                            $classroom->data()['InviteCode'],
                                            $classroom->data()['ClassName'],
-                                            $classroom->data()['OwnerID'],null);
+                                            $classroom->data()['OwnerID'],null,[]);
                         $classRoom->setTests($classroom->data()['Tests']);
                         array_push($classRooms,$classRoom);
 
@@ -133,7 +133,7 @@ class Etudiant extends Controller
                         $classroom->data()['Courses'],
                         $classroom->data()['InviteCode'],
                         $classroom->data()['ClassName'],
-                        $classroom->data()['OwnerID'],null);
+                        $classroom->data()['OwnerID'],null,[]);
                     array_push($classRooms,$classRoom);
 //                     $coursesDoc = $classroom->data()['Courses'];
 //                     foreach ($coursesDoc as $courseDoc){
@@ -232,7 +232,7 @@ class Etudiant extends Controller
 /// only amethode for generating a comment i use i oly for tests
 ///
     public function generate_comment(){
-        $comment = new Comment();
+        $comment = new Comment("","","","");
         $comment->setTitle('test 1');
         $comment->setBody('test body 1');
         $comment->setDateComment('test date comment 1');
@@ -350,7 +350,7 @@ class Etudiant extends Controller
         $classroom = new
         Classroom($class->id(), $class->data()["Students"] ,
             $class["Courses"] ,$class->data()["InviteCode"] ,
-            $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"]);
+            $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"],$class->data()["Tests"]);
         return $classroom;
     }
 

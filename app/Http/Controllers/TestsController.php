@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Test;
 use DateTime;
 use App\Answer;
-
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -20,8 +20,10 @@ class TestsController extends Controller
      */
     public function index($classroomID)
     {
+    
+        $me = session('me');
         $tests = $this->allTests($classroomID);
-        return view("teacher.classrooms.tests.index",compact("tests","classroomID"));
+        return view("teacher.classrooms.tests.index",compact("tests","classroomID",'me'));
         //
     }
 
@@ -32,7 +34,8 @@ class TestsController extends Controller
      */
     public function create($classroomID)
     {
-        return view("teacher.classrooms.tests.create",compact("classroomID"));
+        $me = session('me');
+        return view("teacher.classrooms.tests.create",compact("classroomID",'me'));
     }
 
     /**
@@ -43,6 +46,7 @@ class TestsController extends Controller
      */
     public function store(Request $request,$classroomID)
     {
+        $me = session('me');
         $fileArray =array();
         $filesArray = $request->file('attach');
         $folderName="Tests/$classroomID";
@@ -51,7 +55,7 @@ class TestsController extends Controller
     $test = Test::setNewTest($this->validateReq());
     $testID = $this->storeTest($test,$classroomID,$file);
     $test = $this->test($testID);
-    return view("teacher.classrooms.tests.show",compact("test","classroomID"));
+    return view("teacher.classrooms.tests.show",compact("test","classroomID",'me'));
     }
 
     /**
@@ -62,8 +66,9 @@ class TestsController extends Controller
      */
     public function show($testID,$classroomID)
     {
+        $me = session('me');
         $test = $this->test($testID);
-        return view("teacher.classrooms.tests.show",compact("test","classroomID"));
+        return view("teacher.classrooms.tests.show",compact("test","classroomID",'me'));
     }
 
     /**
@@ -74,9 +79,9 @@ class TestsController extends Controller
      */
     public function edit($testID,$classroomID)
     {
-
+        $me = session('me');
         $test = $this->test($testID);
-        return view("teacher.classrooms.tests.edit",compact("test","classroomID"));
+        return view("teacher.classrooms.tests.edit",compact("test","classroomID",'me'));
 
     }
 
@@ -89,14 +94,14 @@ class TestsController extends Controller
      */
     public function update(Request $request, $testID,$classroomID)
     {
-
+        $me = session('me');
         $fileArray =array();
         $filesArray = $request->file('attach');
         $folderName="Tests/$classroomID";
         $file = $this->uploadFileToStorage($folderName,$filesArray);
         $this->updateTest($this->validateRe(),$testID,$file);
         $test = $this->test($testID);
-        return view("teacher.classrooms.tests.show",compact("test","classroomID"));
+        return view("teacher.classrooms.tests.show",compact("test","classroomID",'me'));
 
     }
 
@@ -137,7 +142,7 @@ class TestsController extends Controller
        foreach($Tests as $testID)
        {
 
-        if( $TestRef->document($testID)->exists()){
+        
         $T= $TestRef->document($testID)->snapshot();
            $Test = new
            Test($testID, $T->data()["Title"],$T->data()["LastDay"],
@@ -145,7 +150,7 @@ class TestsController extends Controller
            $T->data()["Files"] ,[]
        );
        array_push($Testss,$Test);
-    }
+
        }
 
       return $Testss;

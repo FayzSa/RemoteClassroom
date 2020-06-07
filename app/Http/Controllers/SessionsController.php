@@ -17,8 +17,9 @@ class SessionsController extends Controller
      */
     public function index($classroomID)
     {
-       $sessions =  $this->allSessions($classroomID);
-       return view('teacher.classrooms.sessions.index', compact('sessions','classroomID'));
+        $me = session('me');
+        $sessions =  $this->allSessions($classroomID);
+       return view('teacher.classrooms.sessions.index', compact('sessions','classroomID','me'));
     }
     /**
      * Show the form for creating a new resource.
@@ -27,8 +28,8 @@ class SessionsController extends Controller
      */
     public function create($classroomID)
     {
-
-        return view("teacher.classrooms.sessions.create",compact("classroomID"));
+        $me = session('me');
+        return view("teacher.classrooms.sessions.create",compact("classroomID",'me'));
 
     }
 
@@ -40,11 +41,11 @@ class SessionsController extends Controller
      */
     public function store(Request $request,$classroomID)
     {
-
+        $me = session('me');
         $annonce = Sessions::setNewAnnonce($this->validateRe());
         $new = $this->annocceSession($annonce,$classroomID);
         $session = $this->session($new);
-        return view("teacher.classrooms.sessions.show",compact("session","classroomID"));
+        return view("teacher.classrooms.sessions.show",compact("session","classroomID",'me'));
 
     }
 
@@ -56,9 +57,9 @@ class SessionsController extends Controller
      */
     public function show($sessionID,$classroomID)
     {
-
+        $me = session('me');
         $session = $this->session($sessionID);
-        return view("teacher.classrooms.sessions.show",compact("session","classroomID"));
+        return view("teacher.classrooms.sessions.show",compact("session","classroomID",'me'));
     }
 
     /**
@@ -69,8 +70,9 @@ class SessionsController extends Controller
      */
     public function edit($sessionID,$classroomID)
     {
+        $me = session('me');
         $session = $this->session($sessionID);
-        return view("teacher.classrooms.sessions.edit",compact("session","classroomID"));
+        return view("teacher.classrooms.sessions.edit",compact("session","classroomID",'me'));
     }
 
     /**
@@ -82,9 +84,10 @@ class SessionsController extends Controller
      */
     public function update(Request $request, $sessionID,$classroomID)
     {
+        $me = session('me');
         $this->updateSession($this->validateRe(),$sessionID);
         $session = $this->session($sessionID);
-        return view("teacher.classrooms.sessions.show",compact("session","classroomID"));
+        return view("teacher.classrooms.sessions.show",compact("session","classroomID",'me'));
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -12,11 +12,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function __construct()
-    {
-  //  static::$db = self::firestoreDatabaseInstance();
-    }
 
 
     public function index()
@@ -113,4 +108,17 @@ class UsersController extends Controller
 
         return redirect('/users');
     }
+
+
+    public static function user($user_id,$db)
+{
+    $user = null;
+    $userRef =$db->collection('User')->document($user_id)->snapshot();
+    if($userRef->exists()){
+    $user = new User($userRef->id(),$userRef->data()["Email"],
+    $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"] ?? '',
+    $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"] ?? '',$userRef->data()["Type"]);
+    }
+    return $user;
+}
 }

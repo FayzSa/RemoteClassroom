@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Users;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Auth;
 use Session;
@@ -107,7 +108,9 @@ class FirebaseController extends Controller
 
                     // session(['uid' => '$logged_user->uid']);
                     //  print_r($logged_user);
+                    $me =  UsersController::user($logged_user->firebaseUserId(),$this->db);
                     session()->put('uid', $logged_user->firebaseUserId());
+                    session()->put('me', $me);
                     return redirect()->route('home');
                 }
                 
@@ -157,7 +160,8 @@ class FirebaseController extends Controller
                 'Email'       => $request->Email,
                 'Bio' => '',
                 'Type'  => $request->Type,
-                'CreatedDate' => $createdAt
+                'CreatedDate' => $createdAt,
+                'ProfileIMG' => "https://firebasestorage.googleapis.com/v0/b/elearningapp-30a10.appspot.com/o/undraw_male_avatar_323b%20(1).png"
                 ]); 
                 session()->flash('status', 'account registred succesfully');
                 // session()->put('status', "");

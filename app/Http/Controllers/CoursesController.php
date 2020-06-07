@@ -19,7 +19,8 @@ class CoursesController extends Controller
     public function index($classroomID)
     {
        $courses =  $this->myCourses($classroomID);
-       return view('teacher.classrooms.courses.index', compact('courses','classroomID'));
+       $me = session('me');
+       return view('teacher.classrooms.courses.index', compact('courses','classroomID','me'));
     }
 
     /**
@@ -29,8 +30,8 @@ class CoursesController extends Controller
      */
     public function create($classroomID)
     {
-        
-        return view('teacher.classrooms.courses.create', compact('classroomID'));
+        $me = session('me');
+        return view('teacher.classrooms.courses.create', compact('classroomID','me'));
    
     }
 
@@ -50,8 +51,8 @@ class CoursesController extends Controller
         $course = Course::setNewCourse($this->validateReq());
         $CourseID = $this->storeCourse($course,$classroomID,$file);
         $course =  $this->myCourse($CourseID,$classroomID);
-        
-        return view('teacher.classrooms.courses.show',compact('course','classroomID'));
+        $me = session('me');
+        return view('teacher.classrooms.courses.show',compact('course','classroomID','me'));
     }
 
     /**
@@ -62,8 +63,9 @@ class CoursesController extends Controller
      */
     public function show($courseID,$classroomID)
     {
+        $me = session('me');
         $course =  $this->myCourse($courseID,$classroomID);
-        return view('teacher.classrooms.courses.show', compact('course','classroomID'));
+        return view('teacher.classrooms.courses.show', compact('course','classroomID','me'));
    
     }
 
@@ -75,8 +77,9 @@ class CoursesController extends Controller
      */
     public function edit($courseID,$classroomID)
     {
+        $me = session('me');
         $course = $this->myCourse($courseID,$classroomID);
-        return view('teacher.classrooms.courses.edit', compact('course','classroomID'));
+        return view('teacher.classrooms.courses.edit', compact('course','classroomID','me'));
     }
 
     /**
@@ -94,7 +97,8 @@ class CoursesController extends Controller
         $file = $this->uploadFileToStorage($folderName,$filesArray);
         $this->updateCourse($this->validateRe(),$courseID,$file);
         $course =  $this->myCourse($courseID,$classroomID);
-        return view('teacher.classrooms.courses.show', compact('course','classroomID'));
+        $me = session('me');
+        return view('teacher.classrooms.courses.show', compact('course','classroomID','me'));
     }
 
     /**
@@ -142,14 +146,14 @@ class CoursesController extends Controller
        {
            
         $co = $docRefs->document($courseID)->snapshot();
-        if( $docRefs->document($courseID)->exists()){
+    
            $course = new
            Course($courseID, $classroomID,
            [] ,$co->data()["attach"] ,
            $co->data()["Name"] , $co->data()["Description"]
        );
        array_push($coursess,$course);
-    }
+    
        }
       
       return $coursess;

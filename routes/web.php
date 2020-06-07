@@ -67,9 +67,7 @@ Route::group([
     'middleware' => 'TeacherAuth',
 ], function () {
 
-    Route::get('/createlive', function () {
-        return view('teacher.classrooms.createmeeting');
-    });
+    Route::get('teacher/classrooms/createmeeting/{classroomID}','ClassroomsController@createLive')->name('teacher.createlive');
     Route::get('/joinlive', function () {
         return view('teacher.classrooms.joinmeeting');
     });
@@ -88,11 +86,10 @@ Route::group([
     Route::get('teacher/classrooms/show/{classroomID}', 'ClassroomsController@show')->name("classrooms.show");
     Route::patch('teacher/classrooms/{classroomID}', 'ClassroomsController@update')->name("classrooms.update");
     Route::delete('teacher/classrooms/{classroomID}', 'ClassroomsController@destroy')->name("classrooms.destroy");
-    Route::get('teacher', function(){
-        return view('teacher.index');
-    });
+    Route::get('teacher', 'TeacherController@index');
+   
     
-    Route::patch('teacher/classrooms//requestes/{classroomID}/{studentID}', 'ClassroomsController@addStudentToClass')->name("request.add");
+    Route::patch('teacher/classrooms/requestes/{classroomID}/{studentID}', 'ClassroomsController@addStudentToClass')->name("request.add");
     Route::delete('teacher/classrooms//requestes/{classroomID}/{studentID}', 'ClassroomsController@removeStudentFromClass')->name("request.remove");
     
     
@@ -175,7 +172,7 @@ Route::group([
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('');
 });
 Route::get('/users', 'UsersController@index');
 Route::get('/users/create', 'UsersController@create');

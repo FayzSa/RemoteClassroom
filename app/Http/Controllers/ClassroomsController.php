@@ -33,7 +33,7 @@ class ClassroomsController extends Controller
            $class = new
            Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
            $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
-           $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"]
+           $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"],$dataFormsnap["Tests"]
        );
        array_push($classrooms,$class);
     }
@@ -51,8 +51,10 @@ class ClassroomsController extends Controller
 
     public function index()
     {
-        $classrooms = $this->myClasses("9152801b0c7e44838a0d");
-        return view('teacher.classrooms.index', compact('classrooms'));
+    //   print_r(session('uid'));
+         $me = session('me');
+        $classrooms = $this->myClasses(session('uid'));
+        return view('teacher.classrooms.index', compact('classrooms','me'));
     }
 
     /**
@@ -62,7 +64,8 @@ class ClassroomsController extends Controller
      */
     public function create()
     {
-        return view('teacher.classrooms.create');
+        $me = session('me');
+        return view('teacher.classrooms.create',compact('me'));
     }
 
     /**
@@ -73,9 +76,10 @@ class ClassroomsController extends Controller
      */
     public function store()
     {
-        $classroom = Classroom::setNewClass($this->validateReq(),"9152801b0c7e44838a0d");
+        $me = session('me');
+        $classroom = Classroom::setNewClass($this->validateReq(),session('uid'));
         $this->storeClass($classroom);
-        return view('teacher.classrooms.create');
+        return view('teacher.classrooms.create',compact('me'));
     }
 
     /**
@@ -87,8 +91,9 @@ class ClassroomsController extends Controller
     public function show($classroomID)
     {
        // print_r($classroomID);
+       $me = session('me');
         $classroom = $this->tClass($classroomID);
-        return view("teacher.classrooms.show",compact('classroom'));
+        return view("teacher.classrooms.show",compact('classroom','me'));
     }
 
     /**
@@ -100,8 +105,8 @@ class ClassroomsController extends Controller
     public function edit($classroomID)
     {
         $classroom = $this->tClass($classroomID);
-
-        return view("teacher.classrooms.edit",compact('classroom'));
+        $me = session('me');
+        return view("teacher.classrooms.edit",compact('classroom','me'));
     }
 
     /**
@@ -134,6 +139,12 @@ class ClassroomsController extends Controller
      // delete all courses
     }
 
+    public function createLive($classroomID)
+    {
+        $me = session('me');
+        $classroom = $this->tClass($classroomID);
+        return view('teacher.classrooms.createmeeting',compact('classroom','me','classroomID'));
+    }
 
     private function validateReq(){
 
@@ -155,7 +166,7 @@ class ClassroomsController extends Controller
           'ClassName' => $class->className,
           'Courses'  => [],
           'InviteCode' =>  $class->invitCode,
-          'OwnerID' => "9152801b0c7e44838a0d",
+          'OwnerID' => session('uid'),
           'Students' => [],
           'Created_at'=>$dateNow
         ]);
@@ -179,7 +190,7 @@ class ClassroomsController extends Controller
     $classroom = new
     Classroom($class->id(), $students ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
-    $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"]);
+    $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"],$class->data()['Tests']);
     return $classroom;
 }
 
@@ -234,6 +245,7 @@ public function join_meeting(Request $request){
 }
 
 public function requests($classroomID){
+    $me = session('me');
     $classroom = $this->tClass($classroomID);
     $students = [];
     foreach($classroom->requests as $request){
@@ -244,7 +256,7 @@ public function requests($classroomID){
         }
        
     }
-    return view('teacher.classrooms.request',compact('students','classroomID'));
+    return view('teacher.classrooms.request',compact('students','classroomID','me'));
 }
 public function addStudentToClass($classroomID,$studentID){
     
@@ -289,14 +301,14 @@ private function updateClass($Request , $classroomID)
 
 }
 
-private function user($user_id)
+public function user($user_id)
 {
     $user = null;
     $userRef = $this->db->collection('User')->document($user_id)->snapshot();
     if($userRef->exists()){
     $user = new User($userRef->id(),$userRef->data()["Email"],
-    $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"],
-    $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"],$userRef->data()["Type"]);
+    $userRef->data()["CreatedDate"],$userRef->data()["ProfileIMG"] ?? '',
+    $userRef->data()["FirstName"],$userRef->data()["LastName"],$userRef->data()["Bio"] ?? '',$userRef->data()["Type"]);
     }
     return $user;
 }

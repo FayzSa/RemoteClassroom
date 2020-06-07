@@ -137,7 +137,7 @@ class Classroom extends Model
         $this->tests = $tests;
     }
 
-    public function __construct($classroomID , $students , $courses , $invitCode , $className , $owenrID,$requests)
+    public function __construct($classroomID , $students , $courses , $invitCode , $className , $owenrID,$requests,$tests)
     {
         $this->classroomID = $classroomID ;
         $this->students = $students;
@@ -146,10 +146,11 @@ class Classroom extends Model
         $this->className = $className;
         $this->owenrID = $owenrID;
         $this->requests = $requests;
+        $this->tests = $tests;
     }
     public static function setNewClass($Request,$owenrID){
 
-        $class = new Classroom("",[],[],$Request['invitCode'],$Request['ClassName'],$owenrID,[]);
+        $class = new Classroom("",[],[],$Request['invitCode'],$Request['ClassName'],$owenrID,[],[]);
         return $class;
     }
 }
