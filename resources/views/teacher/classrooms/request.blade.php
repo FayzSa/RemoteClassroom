@@ -23,47 +23,58 @@
 
 
 @section('content')
-
-<div class="row">
-    <div class="col-12">
-    <h1>Requests</h1>    
-    </div>
-
-
-</div>
-
-<hr>    
-    
-
-<div class="row py-2">
-    <div class="col-12"> 
-        @foreach ($students as $student)
+ <!-- ##### Upcoming Events Start ##### -->
+ <section class="upcoming-events section-padding-100-0">
+    <div class="container">
         <div class="row">
-            <div class="col-4">
-                {{$student->firstName}}
-            </div>
-           <div class="col-4">
-            <form action="{{ route('request.add',['classroomID'=> $classroomID , 'studentID'=>$student->userID]) }}" method="POST" enctype="multipart/form-data">
-                @method('PATCH')
-                @csrf
-                <input type="submit" class='btn btn-primary'value="Add to Classroom">
-                </form>
-            </div>
-            <div class="col-4">
-                <form action="{{ route('request.remove',['classroomID'=> $classroomID , 'studentID'=>$student->userID]) }}" method="POST" enctype="multipart/form-data">
-                    @method('DELETE')
-                    @csrf
-                    <input type="submit" class='btn btn-danger'value="Refuse">
-                    </form>
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3>Requests</h3>
                 </div>
-            <div class="col-4">
+            </div>
+        </div>
+        <div class="row">
+            @foreach ($students as $student)
+
+            <!-- Single Upcoming Events -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-upcoming-events mb-50 wow fadeInUp" data-wow-delay="750ms">
+                    <!-- Events Thumb -->
+                    <div class="events-thumb">
+                        <img src="{{$student->profileIMG ?? "https://firebasestorage.googleapis.com/v0/b/elearningapp-30a10.appspot.com/o/undraw_male_avatar_323b%20(1).png"}}" alt="">
+                        <h4 class="event-date">{{$student->firstName}} {{$student->lastName}}</h4>
+                        <p class="event-title">{{$student->bio}}</p>
+                    </div>
+                    <!-- Date & Fee -->
+                    <div class="date-fee d-flex justify-content-start">
+                        <div class="date">
+                            <p><i class="fa fa-clock"></i> {{$student->email}}</p>
+                        </div>
+                    </div>
+                        <div class="events-fee">
+                            <form class=" mb-2" action="{{ route('request.add',['classroomID'=> $classroomID , 'studentID'=>$student->userID]) }}" method="POST" enctype="multipart/form-data">
+                                @method('PATCH')
+                                @csrf
+                                <button type="submit" class='col-12 btn btn-primary btn-sm'value="">Add to Classroom</button>
+                                </form>
+                                 
+                                <form class="" action="{{ route('request.remove',['classroomID'=> $classroomID , 'studentID'=>$student->userID]) }}" method="POST" enctype="multipart/form-data">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class='col-12 btn btn-danger btn-sm'value="">Refuse</button>
+                                    </form>
+                        </div>
+
+                    
+                </div>
+
                
-                </div>
-        
-           
-        
-        </div>    
-        @endforeach
+            </div>
+             @endforeach
+        </div>
     </div>
-</div>
+</section>
+<!-- ##### Upcoming Events End ##### -->
+
+
 @endsection

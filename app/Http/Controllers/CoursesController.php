@@ -167,13 +167,18 @@ class CoursesController extends Controller
         $commentsRef = $courseRef->collection('Comments')->documents();
         foreach($commentsRef as $comment){
             if($comment->exists()){
-            $com = new Comment($comment->id(),
+            $com = new Comment(
             $comment['Title'],
             $comment['Body'],
             $comment['DateComm'],
-            $comment['OwenerID']);
+            $comment['OwenerID'],
+            $comment['OwenerName'],
+            $comment['OwenerPic']
+        );
             array_push($comments,$com);
         }}
+        
+      
         $co = $courseRef->snapshot();
         $course =
         new

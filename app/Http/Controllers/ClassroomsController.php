@@ -180,17 +180,20 @@ class ClassroomsController extends Controller
     $class = $docRef->document($classroomID)->snapshot();
 
     $students = [];
-    foreach($class->data()["Students"] as $student)
+    $ClassStd =$class->data()["Students"]; 
+   
+    foreach($ClassStd as $student)
     {
         
         $std = $this->user($student);
         if($std!=null){
         array_push($students,$std);
-    } }
+    } 
+}
     $classroom = new
     Classroom($class->id(), $students ,
     $class["Courses"] ,$class->data()["InviteCode"] ,
-    $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"],$class->data()['Tests']);
+    $class->data()["ClassName"] ,session('uid') , $class->data()["Requests"],$class->data()['Tests']);
     return $classroom;
 }
 

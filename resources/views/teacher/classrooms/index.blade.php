@@ -37,7 +37,7 @@
         @foreach ($classrooms as $class)
 
         
-        <div class="col-3 col-sm-6 col-lg-3">
+        <div class="col-6 col-sm-6 col-lg-3">
             <div class="single-cool-facts-area text-center mb-100 wow fadeInUp" data-wow-delay="750ms">
                 <div class="icon">
                     <img src="{{ asset('clever/img/core-img/star.png')}}" alt="">
@@ -45,7 +45,11 @@
                 <h2><span class="">
                     <a href="{{ route('classrooms.show',['classroomID'=>$class->classroomID]) }}" style="color: #6C63FF"> {{$class->className}}</a>
                 </span></h2>
-               
+                <form method="POST" action="{{ route('classrooms.destroy',['classroomID'=>$class->classroomID]) }}">
+                    @method('DELETE')
+                     @csrf
+                     <button type="submit" class="btn btn-danger  col-12">Delete</button>
+                     </form>
             </div>
         </div>
  

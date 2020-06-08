@@ -206,7 +206,9 @@ class Etudiant extends Controller
                         $comment = new Comment($commentDoc['Title'],
                                             $commentDoc['Body'],
                                              $commentDoc['DateComm'] ,
-                                             $commentDoc['OwenerID']
+                                             $commentDoc['OwenerID'],
+                                             $commentDoc['OwenerName'],
+                                             $commentDoc['OwenerPic']
 
                                             );
                         array_push($comments,$comment);
@@ -232,7 +234,7 @@ class Etudiant extends Controller
 /// only amethode for generating a comment i use i oly for tests
 ///
     public function generate_comment(){
-        $comment = new Comment("","","","");
+        $comment = new Comment("","","","","","");
         $comment->setTitle('test 1');
         $comment->setBody('test body 1');
         $comment->setDateComment('test date comment 1');
@@ -245,7 +247,8 @@ class Etudiant extends Controller
         $datecomment = "".now();
         $courseid = $request->get('courseid');
         $ownerId = 'B1Df9tQl7UiACljxusUi';
-        $comment = new Comment($title,$body,$datecomment,$ownerId);
+        // 
+        $comment = new Comment($title,$body,$datecomment,$ownerId,"Dir Name Dyal Student Hna","Hna profile Pic");
         $this->comment_to_a_course($courseid,$comment);
         return redirect(route('student.classroom.course.show',['courseID'=>$courseid]));
     }

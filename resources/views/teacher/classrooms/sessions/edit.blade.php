@@ -28,9 +28,24 @@
 @endsection
 @section('content')
 <h3>Edit Annonce</h3>
-<form action="{{ route('session.update',['sessionID'=> $session->sessionID ,'classroomID'=> $classroomID]) }}" method="POST" enctype="multipart/form-data">
-    @method('PATCH')
-    @include('teacher.classrooms.sessions.form')
-    <input type="submit" class='btn btn-primary'value="Update">
-    </form>
+<div class="">
+    <div class="justify-content-center">
+        <form action="{{ route('session.update',['sessionID'=> $session->sessionID ,'classroomID'=> $classroomID]) }}" method="POST" enctype="multipart/form-data">
+            @method('PATCH')
+            @include('teacher.classrooms.sessions.form')
+            <input type="submit" class='btn btn-primary col-12'value="Update">
+            </form>
+    </div>
+   
+    <div class="mt-2">
+        <form method="POST" action="{{ route('session.destroy',['sessionID'=> $session->sessionID ,'classroomID'=> $classroomID]) }}">
+       @method('DELETE')
+        @csrf
+        <input type="submit" value="Delete" class="btn btn-danger col-12">
+        </form>
+   </div>
+</div>
+
+
+   
     @endsection 

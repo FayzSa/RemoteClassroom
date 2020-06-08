@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    protected $title,$body,$dateComment,$ownerId;
+    public $title,$body,$dateComment,$ownerId , $owenrName , $owenrPic;
 
 
-    public function __construct($title,$body,$dateComment,$ownerId){
+    public function __construct($title,$body,$dateComment,$ownerId , $owenrName,$owenrPic){
         $this->title = $title;
         $this->body = $body;
         $this->dateComment = $dateComment;
         $this->ownerId = $ownerId;
+        $this->owenrName =$owenrName;
+        $this->owenrPic = $owenrPic;
     }
 
 

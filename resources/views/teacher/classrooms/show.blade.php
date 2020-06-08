@@ -25,67 +25,57 @@
 
 @section('content')
 <div class="row">
-   
+    <div class="col-12">
+    <h1> {{$classroom->className}} </h1>    
+    </div>
 </div>
-<div class="row">
-    
-        <h1> {{$classroom->className}} </h1>    
-     
-        <form method="POST" action="{{ route('classrooms.destroy',['classroomID'=>$classroom->classroomID]) }}">
-           @method('DELETE')
-            @csrf
-            <input type="submit" value="DELETE" class="btn btn-danger btn-sm">
-            </form>
-     </div>
+
+<hr>  
 
 
 
+ <!-- ##### Popular Course Area Start ##### -->
+ <section class="popular-courses-area section-padding-100">
+    <div class="container">
+        <div class="row">
+
+            @foreach($classroom->students as $student)
+            <!-- Single Popular Course -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                    <img src="{{$student->profileIMG ?? "https://firebasestorage.googleapis.com/v0/b/elearningapp-30a10.appspot.com/o/undraw_male_avatar_323b%20(1).png"}}" alt="">
+                    <!-- Course Content -->
+                    <div class="course-content">
+                        <h4>Student</h4>
+                        <div class="meta d-flex align-items-center">
+                            <a href="#">{{$student->firstName}} </a>
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                            <a href="#">{{$student->lastName}}</a>
+                        </div>
+                        <p> {{$student->bio}}</p>
+                    </div>
+                    <!-- Seat Rating Fee -->
+                    <div class="seat-rating-fee d-flex justify-content-between">
+                        <div class="seat-rating h-100 d-flex align-items-center">
+                            <div class="seat">
+                               Email
+                            </div>
+                            <div class="rating">
+                                <span> {{$student->email}}</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+</div>
+@endforeach
 
 
         
-          
 
-  <!-- ##### Students ##### -->
-  <section class="best-tutors-area section-padding-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-heading">
-                    <h3>Classroom Students</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="tutors-slide owl-carousel wow fadeInUp" data-wow-delay="250ms">
-
-                    @foreach ($classroom->students as $student)
-                    
-                  
-                    <!-- Single Tutors Slide -->
-                    <div class="single-tutors-slides">
-                        <!-- Tutor Thumbnail -->
-                        <div class="tutor-thumbnail bg-white">
-                        <img src="{{$student->profileIMG ?? "https://firebasestorage.googleapis.com/v0/b/elearningapp-30a10.appspot.com/o/undraw_male_avatar_323b%20(1).png"}}" alt="">
-                        </div>
-                        <!-- Tutor Information -->
-                        <div class="tutor-information text-center">
-                            <h5> {{$student->firstName}}  {{$student->lastName}}</h5>
-                            <span> {{$student->email}}</span>
-                            <p> {{$student->bio}}</p>
-                           
-                        </div>
-                    </div>
-                </div>
-
-                @endforeach
-
-            </div>
-        </div>
+      
     </div>
 </section>
-<!-- ##### Best Tutors End ##### -->
+<!-- ##### Popular Course Area End ##### -->
 
 
 
