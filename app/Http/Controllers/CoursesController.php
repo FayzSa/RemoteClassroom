@@ -146,14 +146,14 @@ class CoursesController extends Controller
        {
            
         $co = $docRefs->document($courseID)->snapshot();
-    
+        if($co->data()["Name"]){
            $course = new
-           Course($courseID, $classroomID,
+           Course($co->id(), $classroomID,
            [] ,$co->data()["attach"] ,
            $co->data()["Name"] , $co->data()["Description"]
        );
        array_push($coursess,$course);
-    
+    }
        }
       
       return $coursess;

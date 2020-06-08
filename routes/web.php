@@ -67,13 +67,13 @@ Route::group([
     'middleware' => 'TeacherAuth',
 ], function () {
 
-    Route::get('teacher/classrooms/createmeeting/{classroomID}','ClassroomsController@createLive')->name('teacher.createlive');
+    Route::get('teacher/classrooms/createmeeting/{classroomID}','LivesController@createLive')->name('teacher.createlive');
     Route::get('/joinlive', function () {
         return view('teacher.classrooms.joinmeeting');
     });
     
-    Route::post('/live/create','ClassroomsController@create_meeting')->name('live.create');
-    Route::post('/live/join','ClassroomsController@join_meeting')->name('live.join');
+    Route::post('/live/create/{classroomID}','LivesController@create_meeting')->name('live.create');
+    Route::post('/live/join','LivesController@join_meeting')->name('live.join');
     //Route::resource('teacher/classrooms',"ClassroomsController");
     
     

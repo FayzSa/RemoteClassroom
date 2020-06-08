@@ -139,12 +139,6 @@ class ClassroomsController extends Controller
      // delete all courses
     }
 
-    public function createLive($classroomID)
-    {
-        $me = session('me');
-        $classroom = $this->tClass($classroomID);
-        return view('teacher.classrooms.createmeeting',compact('classroom','me','classroomID'));
-    }
 
     private function validateReq(){
 
@@ -168,7 +162,8 @@ class ClassroomsController extends Controller
           'InviteCode' =>  $class->invitCode,
           'OwnerID' => session('uid'),
           'Students' => [],
-          'Created_at'=>$dateNow
+          'Created_at'=>$dateNow,
+          'LiveRunning'=>false
         ]);
 
 
@@ -197,55 +192,6 @@ class ClassroomsController extends Controller
     return $classroom;
 }
 
-public function create_meeting(Request $request){
-
-
-    $bbb = new BigBlueButton();
-
-    $username = $request->get('username');
-    $password = $request->get('password');
-    $attendedpassword = $request->get('attendedpassword');
-    $meeting_id = $request->get('meeting');
-    $meetiongName = $request->get('meetingname');
-    $welcomemessage = $request->get('welcomemesage');
-    $createMeetingParams = new CreateMeetingParameters($meeting_id, $meetiongName);
-    $createMeetingParams->setAttendeePassword($attendedpassword);
-    $createMeetingParams->setModeratorPassword($password);
-    $createMeetingParams->setWelcomeMessage($welcomemessage);
-    $createMeetingParams->setLogoutUrl('127.0.0.1:8000');
-//    if ($isRecordingTrue) {
-//        $createMeetingParams->setRecord(true);
-//        $createMeetingParams->setAllowStartStopRecording(true);
-//        $createMeetingParams->setAutoStartRecording(true);
-//    }
-
-    $response = $bbb->createMeeting($createMeetingParams);
-    if ($response->getReturnCode() == 'FAILED') {
-        return dd('Can\'t create room! please contact our administrator.');
-    } else {
-
-        $joinMeetingParams = new JoinMeetingParameters($meeting_id, $username, $password); // $moderator_password for moderator
-        $joinMeetingParams->setRedirect(true);
-        $url = $bbb->getJoinMeetingURL($joinMeetingParams);
-       header('Location:' . $url);
-       return dd('room created');
-    }
-
-
-}
-
-public function join_meeting(Request $request){
-            $username = $request->get('username');
-        $password = $request->get('password');
-        $meetingid = $request->get('meetingId');
-    $bbb = new BigBlueButton();
-
-    $joinMeetingParams = new JoinMeetingParameters($meetingid, $username, $password); // $moderator_password for moderator
-    $joinMeetingParams->setRedirect(true);
-    $url = $bbb->getJoinMeetingURL($joinMeetingParams);
- header('Location:' . $url);
- dd('room joined');
-}
 
 public function requests($classroomID){
     $me = session('me');
