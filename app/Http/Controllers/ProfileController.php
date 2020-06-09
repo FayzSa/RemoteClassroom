@@ -1,77 +1,202 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Admin;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
+use App\Classroom;
+use DateTime;
+use Google\Cloud\Firestore\FieldValue;
 class ProfileController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
-
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return view('profile');
+        
+        $me = session('me');
+        return view('Teacher.profile',compact('me'));
     }
 
-    // public function update(Request $Request)
-    // {
-    //     $Request->validate([
-    //         'FirstName' => 'required|string|max:255',
-    //         'LastName' => 'required|string|max:255',
-    //         'Email' => 'required|string|email|max:255|',
-    //         'Bio' => 'required|string|max:405',
-    //         'profileImg' => 'max:10000|mimes:png,jpg,jpeg'
-    //     ]);
-    //     $adminID="dqKf3DftOeT7VTZ6ju7w";
-    //     $admin= new Admin($adminID,$Request['FirstName'],$Request['LastName'],$Request['Email'],$Request['Bio']);
+    public function settings()
+    {
+        $me = session('me');
+        return view('Teacher.settings',compact('me'));
+    }
 
-    //     $docRef =  $this->db->collection('Admin');
-    //     if($Request->hasFile('ProfileIMG')){
-    //         $account = $docRef->document($adminID)->update(
-    //             [
-    //     ['path' => 'FirstName','value' => $admin->FirstName],
-    //     ['path' => 'LastName','value' => $admin->LastName],
-    //     ['path' => 'Bio','value' => $admin->Bio],
-    //     ['path' => 'ProfileIMG','value' => $Request['ProfileIMG']],
+    public function UserActiveDB($status){
+        $UserID= session('uid');
+        $docRef =  $this->db->collection('User');
+        $account = $docRef->document($UserID)->update(
+            [
+    ['path' => 'active','value' => $status],
     
-    //       ]
-    //         );
-    //     }else{
+      ]
+        );
+    }
 
-    //         $account = $docRef->document($adminID)->update(
-    //             [
-    //     ['path' => 'FirstName','value' => $admin->FirstName],
-    //     ['path' => 'LastName','value' => $admin->LastName],
-    //     ['path' => 'Bio','value' => $admin->Bio],
+
+    public function update(Request $Request)
+    {
+        $Request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|',
+            'Bio' => 'required|string|max:405',
+            'ProfileImg' => 'max:10000|mimes:png,jpg,jpeg'
+        ]);
+        $UserID=session('uid');
+            $ad= new AdminController();
+        $docRef =  $this->db->collection('User');
+        if($Request->hasFile('ProfileIMG')){
+        $profile = $ad->uploadFileToStorage("UserProfile",$Request['ProfileIMG']);
+        $user = new User($UserID,$Request['Email'],"",$profile,$Request['FirstName'],$Request['LastName'],$Request['Bio'],'');
+            $account = $docRef->document($UserID)->update(
+                [
+        ['path' => 'FirstName','value' => $user->firstName],
+        ['path' => 'LastName','value' => $user->lastName],
+        ['path' => 'Bio','value' => $user->bio],
+        ['path' => 'ProfileIMG','value' => $profile],
+    
+          ]
+            );
+        }else{
+
+            $account = $docRef->document($UserID)->update(
+                [
+        ['path' => 'FirstName','value' => $Request['FirstName']],
+        ['path' => 'LastName','value' => $Request['LastName']],
+        ['path' => 'Bio','value' => $Request['Bio']],
         
     
-    //       ]
-    //         );
+          ]
+            );
 
-    //     }
-      
+        }
 
-    //     // $admin->name = $request->input('name');
-    //     // $user->last_name = $request->input('last_name');
-    //     // $user->email = $request->input('email');
+        $me =  UsersController::user($UserID,$this->db);
+        
+        session()->put('me', $me);
+        return redirect()->route('Teacher.Profile');
+    }
 
-    //     // if (!is_null($request->input('current_password'))) {
-    //     //     if (Hash::check($request->input('current_password'), $user->password)) {
-    //     //         $user->password = $request->input('new_password');
-    //     //     } else {
-    //     //         return redirect()->back()->withInput();
-    //     //     }
-    //     // }
+    public function updateEmailDB($email){
+        $UserID=session('uid');
+        $docRef =  $this->db->collection('User');
+        $account = $docRef->document($UserID)->update(
+            [
+    ['path' => 'Email','value' => $email],
 
-    //     // $user->save();
+      ]
+        );
 
-    //     return redirect()->route('profile');
+    }
+
+
+    public function disableaccount(){
+
+        $uid = session('uid');
+        $disible  = $this->auth->disableUser($uid);
+        Session()->forget('uid');
+
+    }
+
+   public function settingsUpdate(Request $Request){
+    
+    $Request->validate([
+        'Email' => 'required|string|email|max:255',
+    
+    ]);
+    if (empty($Request['new_password']&& empty($Request['password_confirmation']))) {
+        
+        $uid = session('uid');
+        $updatedUser = $this->auth->changeUserEmail($uid, $Request['Email']);
+        $this->updateEmailDB($Request['Email'],$uid);
+        $Request->session()->flash('success', 'Your Email has been changed.');
+    } if (!empty($Request['new_password'] && !empty($Request['password_confirmation']) && $Request['new_password']==$Request['password_confirmation'])) {
+        $uid = session('uid');
+        $updatePassword =$this->auth->changeUserPassword($uid, $Request['new_password']);
+        $updatedUser = $this->auth->changeUserEmail($uid, $Request['Email']);
+        $this->updateEmailDB($Request['Email'],$uid);
+        
+    }
+    return redirect()->route('Teacher.Settings');
+
+   }
+
+
+
+
+
+
+  
+
+   
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    // public function update(Request $request, $id)
+    // {
+    //     //
     // }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

@@ -13,7 +13,7 @@
             <div class="col-12">
                 <!-- Hero Content -->
                 <div class="hero-content text-center">
-                    <h2>Up Comming Sessions</h2>
+                    <h2>Upcoming  Sessions</h2>
                     
                 </div>
             </div>

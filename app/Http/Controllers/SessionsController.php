@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use DateTime;
-
+use DateInterval;
 use App\Sessions;
 use Illuminate\Http\Request;
 
@@ -45,7 +45,7 @@ class SessionsController extends Controller
         $annonce = Sessions::setNewAnnonce($this->validateRe());
         $new = $this->annocceSession($annonce,$classroomID);
         $session = $this->session($new);
-        return view("teacher.classrooms.sessions.show",compact("session","classroomID",'me'));
+        return redirect('teacher/classrooms/sessions/'.$classroomID);
 
     }
 
@@ -59,7 +59,7 @@ class SessionsController extends Controller
     {
         $me = session('me');
         $session = $this->session($sessionID);
-        return view("teacher.classrooms.sessions.show",compact("session","classroomID",'me'));
+        return view("teacher.classrooms.sessions",compact("session","classroomID",'me'));
     }
 
     /**
@@ -107,6 +107,8 @@ class SessionsController extends Controller
 
     private function annocceSession(Sessions $session,$classroomID)
     {
+        $date = new DateTime();
+        $dateNow = $date->format("Y-m-d H:i:s");
        //print_r($session->hour);
         $docRef =  $this->db->collection('Session')->newDocument();
         $newTest =  $docRef->set([
@@ -115,7 +117,8 @@ class SessionsController extends Controller
            'Day' => $session->day,
            'Hour' => $session->hour,
            'Subject'=>$session->subject,
-           'SessionID' => $docRef->id()
+           'SessionID' => $docRef->id(),
+           'PostDate'=> $dateNow
          ]);
 
          return $docRef->id();
@@ -136,20 +139,27 @@ class SessionsController extends Controller
       }
 
       public function allSessions($classroomID){
-
+       
         $SessionRef =  $this->db->collection('Session');
         $snapshot = $SessionRef->where('ClassroomID','==',$classroomID)->orderBy('DateSession','DESC')->documents();
         $Sessions = [];
         foreach($snapshot as $dataFormsnap)
         {
             if(!$dataFormsnap->exists())continue;
+                $datetime1 = new DateTime($dataFormsnap["PostDate"]);
+                $datetime1->add(new DateInterval('P'.$dataFormsnap["Day"].'D'));
+                $now = new DateTime('now');
+               
+               if($now < $datetime1){
+
+
             $Session = new
             Sessions($dataFormsnap->id(), $dataFormsnap["DateSession"] ,
             $dataFormsnap["Day"] ,$dataFormsnap["Hour"] ,
             $dataFormsnap["Subject"] ,$classroomID
         );
-        array_push($Sessions,$Session);
-
+        array_push($Sessions,$Session);}
+    
         }
 
       return $Sessions;
@@ -177,9 +187,15 @@ class SessionsController extends Controller
     private function updateSession($Request , $sessionID )
 {
 
+    $date = new DateTime();
+    $dateNow = $date->format("Y-m-d H:i:s");
+   
+
     $now = new DateTime();
     $year = $now->format("Y");
     $month = $now->format("M");
+     $now->modify($now, '+'.$Request["Day"].' day');
+
     $Date = "$year - ". $month ." - ".$Request["Day"]." - ".$Request["Hour"];
     $docRef =  $this->db->collection('Session');
 
@@ -189,6 +205,7 @@ class SessionsController extends Controller
 ['path' => 'Hour','value' => $Request['Hour']],
 ['path' => 'Day','value' => $Request["Day"]],
 ['path' => 'DateSession','value' => $Date],
+['path' => 'PostDate','value' => $dateNow],
 
 ]
     );

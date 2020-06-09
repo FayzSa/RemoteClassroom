@@ -60,12 +60,25 @@ Route::get('/about', 'AdminController@about')->name("about");
 
 });
 
+//
 
 
 // teachers routes
 Route::group([
     'middleware' => 'TeacherAuth',
 ], function () {
+
+
+// profile here
+
+    Route::get('Teacher/Profile/settings', 'ProfileController@settings')->name("Teacher.Settings");
+    Route::put('Teacher/Profile/settings', 'ProfileController@settingsUpdate')->name('Teacher.Settings.update');
+    Route::post('Teacher/Profile/settings', 'ProfileController@disableaccount')->name('Teacher.Settings.disable');
+    Route::get('Teacher/profile', 'ProfileController@index')->name("Teacher.Profile");
+    Route::put('Teacher/Profile/update', 'ProfileController@update')->name('Teacher.update');
+
+// profile ends here
+
 
     Route::get('teacher/classrooms/createmeeting/{classroomID}','LivesController@createLive')->name('teacher.createlive');
     Route::get('/joinlive', function () {

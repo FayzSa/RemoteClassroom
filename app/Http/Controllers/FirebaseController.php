@@ -186,6 +186,7 @@ class FirebaseController extends Controller
 
         public function logout(){
             Session()->forget('uid');
+            Session()->forget('me');
             
         }
 

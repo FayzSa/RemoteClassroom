@@ -31,10 +31,11 @@
                                 <a class="nav-link" href="{{ url('teacher/classrooms/create') }}">Create Class Room </a>
                             </li>
                             <li><a class="nav-link"  href="{{ url('teacher/classrooms') }}" >Your Classes</a></li>
-                            <li><a class="nav-link"  href="{ {url('/users')}}" >{{$me->firstName }} {{$me->lastName}}</a></li>
+                        <li><a class="nav-link"  href="{{route('Teacher.Profile')}}" >{{$me->firstName }} {{$me->lastName}}</a></li>
                             
                         </ul>
-    
+                        
+                        
                         <!-- Search Button -->
                         <div class="search-area invisible">
                             <form action="#" method="post">
@@ -42,8 +43,12 @@
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
-    
-                       
+                        <a class="btn btn-danger text-white" href="{{ route('logout') }}" data-toggle="modal" data-target="#logoutModal">
+                            
+                            {{ __('Logout') }}
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        </a>
+                 
     
                     </div>
                     <!-- Nav End -->
@@ -55,6 +60,34 @@
 
     
 </header>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('Ready to Leave?') }}</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                
+                    
+                    <a class="btn btn-danger text-white" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }}
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> 
+                    </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <!-- ##### Header Area End ##### -->
 

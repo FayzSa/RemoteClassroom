@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\CreateMeetingParameters;
-use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use App\Classroom;
 use App\User;
@@ -16,11 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class ClassroomsController extends Controller
 {
-   protected $bbb;
-
-    /**
-     * ClassroomsController constructor.
-     */
+  
 
     private function myClasses($OwenrID)
     {
