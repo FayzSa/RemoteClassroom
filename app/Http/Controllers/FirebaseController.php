@@ -62,7 +62,7 @@ class FirebaseController extends Controller
 
         public function isAdmin($Admin){
             $docRef =  $this->db->collection('Admin')->document($Admin);
-       
+
        $adminAccount = $docRef->snapshot();
        if($adminAccount->exists()){
         return true;
@@ -113,7 +113,7 @@ class FirebaseController extends Controller
                     session()->put('me', $me);
                     return redirect()->route('home');
                 }
-                
+
                 //Credentials are correct
           } catch (\Kreait\Firebase\Exception\Auth\InvalidPassword $ex) {
                 return back()->withErrors(['Credentials are incorrect']);
@@ -125,7 +125,7 @@ class FirebaseController extends Controller
 
 
 
-        // register 
+        // register
         public function RegisterForm(){
             return view('auth.register');
         }
@@ -149,10 +149,10 @@ class FirebaseController extends Controller
                     'password' => $password
                ]);
                $user = app('firebase.auth')->signInWithEmailAndPassword($email, $password);
-           
+
             $date = new \DateTime();
             $createdAt= $date->format('Y-m-d H:i:s');
-               
+
                $newuser = $this->db->collection('User')->document($user->firebaseUserId());
                 $newuser->set([
                 'FirstName' => $request->FirstName,
@@ -162,10 +162,10 @@ class FirebaseController extends Controller
                 'Type'  => $request->Type,
                 'CreatedDate' => $createdAt,
                 'ProfileIMG' => "https://firebasestorage.googleapis.com/v0/b/elearningapp-30a10.appspot.com/o/undraw_male_avatar_323b%20(1).png"
-                ]); 
+                ]);
                 session()->flash('status', 'account registred succesfully');
                 // session()->put('status', "");
-                    
+
                 return view('auth.login');
             //   $actionCodeSettings = [
             //            'continueUrl' => 'www.remoteclassroom.com/home'
@@ -187,7 +187,7 @@ class FirebaseController extends Controller
         public function logout(){
             Session()->forget('uid');
             Session()->forget('me');
-            
+            return redirect(route('login'));
         }
 
         public function login(){

@@ -197,7 +197,7 @@ class AnswerController extends Controller
     }
 
     public  function hasAnswers($id_user,$testid){
-        $docRef =  $this->db->collection('Tests')->document($testid)->Collection('Answers');
+        $docRef =  $this->db->collection('Tests')->document($testid)->collection('Answers');
         $answers = $docRef->where('StudentID', '=', $id_user)->documents();
         if($answers->size() > 0) {
             foreach($answers as $answer){

@@ -993,7 +993,7 @@ h1, h2, h3, h4, h5,
   font-size: 1rem; }
 
 .courses-title {
-  padding-bottom: 13rem;
+
   background: #7971ea; }
   .courses-title .section-title {
     color: #fff; }
@@ -1015,10 +1015,11 @@ h1, h2, h3, h4, h5,
   -o-transition: .3s all ease-in-out;
   transition: .3s all ease-in-out;
   top: 0;
+
   position: relative; }
   .course .course-inner-text {
     position: relative;
-    padding-top: 35px !important; }
+    padding-top: 15px !important; }
   .course .course-price {
     position: absolute;
     padding: 10px 15px;

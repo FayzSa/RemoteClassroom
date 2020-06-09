@@ -8,6 +8,38 @@ class Comment extends Model
 {
     public $title,$body,$dateComment,$ownerId , $owenrName , $owenrPic;
 
+    /**
+     * @return mixed
+     */
+    public function getOwenrName()
+    {
+        return $this->owenrName;
+    }
+
+    /**
+     * @param mixed $owenrName
+     */
+    public function setOwenrName($owenrName): void
+    {
+        $this->owenrName = $owenrName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwenrPic()
+    {
+        return $this->owenrPic;
+    }
+
+    /**
+     * @param mixed $owenrPic
+     */
+    public function setOwenrPic($owenrPic): void
+    {
+        $this->owenrPic = $owenrPic;
+    }
+
 
     public function __construct($title,$body,$dateComment,$ownerId , $owenrName,$owenrPic){
         $this->title = $title;

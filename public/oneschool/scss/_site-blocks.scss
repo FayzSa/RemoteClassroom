@@ -4,7 +4,7 @@
 		height: 100vh;
 		min-height: 900px;
 	}
-	
+
 	&.single-cover {
 		&, .container > .row {
 			height: 50vh;
@@ -23,7 +23,7 @@
 		font-size: 1.1rem;
 		// max-width: 400px;
 	}
-	
+
 }
 
 .img-absolute {
@@ -221,7 +221,7 @@
 		z-index: 2;
 		opacity: 0;
 		visibility: hidden;
-		
+
 		transition: .3s all ease;
 		margin-top: 20px;
 
@@ -397,7 +397,7 @@
 		}
 		.owl-next {
 			right: 0;
-			
+
 		}
 	}
 	.owl-dots {
@@ -472,7 +472,7 @@
 }
 
 .courses-title {
-	padding-bottom: 13rem;
+
 	background: $primary;
 	.section-title {
 		color: $white;
