@@ -72,7 +72,8 @@ class ClassroomsController extends Controller
         $me = session('me');
         $classroom = Classroom::setNewClass($this->validateReq(),session('uid'));
         $this->storeClass($classroom);
-        return view('teacher.classrooms.create',compact('me'));
+        $classrooms = $this->myClasses(session('uid'));
+        return view('teacher.classrooms.index', compact('classrooms','me'));
     }
 
     /**
