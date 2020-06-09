@@ -24,9 +24,9 @@ class ClassroomsController extends Controller
        {
         if($dataFormsnap->exists()){
            $class = new
-           Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
-           $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
-           $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"],$dataFormsnap["Tests"]
+           Classroom($dataFormsnap->id(), $dataFormsnap["Students"]  ?? [],
+           $dataFormsnap["Courses"] ?? [],$dataFormsnap["InviteCode"] ,
+           $dataFormsnap["ClassName"] ,$OwenrID ,$dataFormsnap["Requests"]  ?? [],$dataFormsnap["Tests"] ?? []
        );
        array_push($classrooms,$class);
     }
@@ -156,7 +156,8 @@ class ClassroomsController extends Controller
           'OwnerID' => session('uid'),
           'Students' => [],
           'Created_at'=>$dateNow,
-          'LiveRunning'=>false
+          'LiveRunning'=>false,
+          'Requests' => []
         ]);
 
 
@@ -180,8 +181,8 @@ class ClassroomsController extends Controller
 }
     $classroom = new
     Classroom($class->id(), $students ,
-    $class["Courses"] ,$class->data()["InviteCode"] ,
-    $class->data()["ClassName"] ,session('uid') , $class->data()["Requests"],$class->data()['Tests']);
+    $class["Courses"]  ?? [],$class->data()["InviteCode"] ,
+    $class->data()["ClassName"] ,session('uid') , $class->data()["Requests"]  ?? [],$class->data()['Tests']  ?? []);
     return $classroom;
 }
 
