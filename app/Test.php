@@ -125,7 +125,8 @@ class Test extends Model
         $this->title = $title;
         $this->description=$description;
         $this->delay = $delay;
-        $this->files = $files;
+
+        $this->files=$files;
         $this->answers = $answers;
         $this->lastDay=$lastDay;
     }

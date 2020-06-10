@@ -2,7 +2,7 @@
 	// position: relative;
 	position: relative;
 	// left: 0;
-	font-weight: 900;	
+	font-weight: 900;
 	font-size: 1.3rem;
 	a {
 		color: $white;
@@ -14,7 +14,7 @@
 	z-index: 1999;
 	position: absolute;
 	width: 100%;
-	
+
 	.container-fluid {
 		padding-left: 7rem;
 		padding-right: 7rem;
@@ -23,20 +23,20 @@
 			padding-right: 15px;
 		}
 	}
-	
-	
+
+
 	.site-navigation {
 		&.border-bottom {
 			border-bottom: 1px solid lighten($gray-1, 80%)!important;
 		}
 		.site-menu {
-			
+
 			margin-bottom: 0;
 			.active {
 				// > a {
 					color: $primary;
 					display: inline-block;
-					padding: 5px 20px;
+					//padding: 5px 20px;
 				// }
 			}
 			a {
@@ -50,10 +50,10 @@
 					color: $white;
 					display: inline-block;
 					text-decoration: none!important;
-					
+
 					&:hover {
 						color: $white;
-						
+
 					}
 				}
 			}
@@ -61,7 +61,7 @@
 				position: relative;
 				> a {
 					position: relative;
-					padding-right: 20px;						
+					padding-right: 20px;
 					&:before {
 						position: absolute;
 						content: "\e313";
@@ -88,7 +88,7 @@
 					margin-left: 0px;
 					background: $white;
 					transition: 0.2s 0s;
-				
+
 					&.arrow-top {
 						position: absolute;
 						&:before {
@@ -106,9 +106,9 @@
 							border-bottom-color: $white;
 							border-width: 10px;
 							margin-left: -10px;
-						}	
+						}
 					}
-					
+
 
 					a {
 						// font-size: 16px;
@@ -156,7 +156,7 @@
 						}
 					}
 				}
-				
+
 				&:hover, &:focus, &:active {
 					> a {
 						color: $primary;
@@ -170,7 +170,7 @@
 						visibility: visible;
 						opacity: 1;
 
-				
+
 					}
 				}
 			}
@@ -196,7 +196,7 @@
 	padding-top: 20px;
 	background: $white;
 	height: calc(100vh);
-	
+
 	transform: translateX(110%);
 	box-shadow: -10px 0 20px -10px rgba(0,0,0,.1);
 	transition: .3s all ease-in-out;
@@ -210,7 +210,7 @@
 		float: left;
 		padding-left: 20px;
 		padding-right: 20px;
-		
+
 		.site-mobile-menu-close {
 			float: right;
 			margin-top: 8px;
@@ -308,7 +308,7 @@
 			}
 			&.collapsed {
 				&:before {
-					transform: translate(-50%, -50%);	
+					transform: translate(-50%, -50%);
 				}
 			}
 		}
@@ -317,7 +317,7 @@
 			position: relative;
 			float: left;
 			width: 100%;
-			
+
 			> a {
 				padding-left: 20px;
 				font-size: 20px;
@@ -339,14 +339,14 @@
 							display: block;
 							> a {
 								font-size: 16px;
-								padding-left: 60px;			
+								padding-left: 60px;
 							}
 						}
 					}
 				}
 			}
 		}
-	
+
 	&[data-class="social"] {
 		float: left;
 		width: 100%;
@@ -416,10 +416,10 @@
 						color: $black;
 						display: inline-block;
 						text-decoration: none!important;
-						
+
 						&:hover {
 							color: $primary;
-							
+
 						}
 						&.active {
 							&:after {

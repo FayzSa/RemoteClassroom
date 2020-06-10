@@ -142,8 +142,10 @@ class Answer extends Model
 
     public static function setNewAnswer($request)
     {
-        $studentid = 'B1Df9tQl7UiACljxusUi';
-        $studentname = 'moha';
+        $studentid = session('uid');
+        $firstname = session('me')->firstName;
+        $lastname = session('me')->lastName;
+        $studentname = $firstname.' '.$lastname;
        $answer = new Answer("",$request['Description'],"",$studentid,$studentname,$request['Title'],"");
    return $answer;
     }

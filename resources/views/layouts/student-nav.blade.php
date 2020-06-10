@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"  href="{ {url('/users')}}" >Profile</a>
+                    <a class="nav-link"  href="{{route('student.profile')}}" >{{session('me')->firstName.' '.session('me')->lastNames}}</a>
                 </li>
 
             </ul>

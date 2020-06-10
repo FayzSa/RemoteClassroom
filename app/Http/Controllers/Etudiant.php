@@ -44,13 +44,13 @@ class Etudiant extends Controller
 ///
 
     public function index(){
-            $id_user = 'B1Df9tQl7UiACljxusUi';
+            $id_user = session('uid');
             $classrooms = $this->get_my_classrooms($id_user);
             return view('student.index',compact('classrooms'));
     }
 
    public function exit_class_room($classromID){
-        $id_of_user = 'B1Df9tQl7UiACljxusUi';
+        $id_of_user = session('uid');
        $docRef =  $this->db->collection('Classrooms');
        $docRef->document($classromID)->update([
            [
@@ -64,6 +64,7 @@ class Etudiant extends Controller
 ///
 
     public function get_courses_of_classroom($classroomID){
+        $classroom = $this->get_classroom($classroomID);
         $courses = array();
         $docRef =  $this->db->collection('Classrooms')->document($classroomID);
             $coursesDoc = $docRef->snapshot()->data()['Courses'];
@@ -71,7 +72,7 @@ class Etudiant extends Controller
                $course = $this->get_course($courseDoc);
                 array_push($courses,$course);
                 }
-       return view('student.classrooms.courses',compact('courses'));
+       return view('student.classrooms.courses',compact('courses','classroom'));
     }
 
     public function get_course($course_id ){
@@ -178,7 +179,7 @@ class Etudiant extends Controller
     /// if you find any other solution you can test it thank you
     ///
     public function send_request_to_the_owner_of_classroom($classrom_id){
-        $id_user = 'B1Df9tQl7UiACljxusUi';
+        $id_user = session('uid');
         $this->db->collection('Classrooms')->document($classrom_id)->update([
             [
                 "path" => 'Requests',
@@ -221,12 +222,16 @@ class Etudiant extends Controller
 ///it s the same as methode get_comments_of_course
 ///
     public function comment_to_a_course($course_id,Comment $comment){
+        $firstname = session('me')->firstName;
+        $lastname = session('me')->lastName;
         $comments_collection = $this->db->collection('Courses')->document($course_id)->Collection('Comments');
         $comments_collection->newDocument()->set([
             'Title' => $comment->getTitle(),
             'Body' => $comment->getBody(),
             'OwenerID' => $comment->getOwnerId(),
-            'DateComm' => $comment->getDateComment()
+            'DateComm' => $comment->getDateComment(),
+            'OwenerName' => $firstname.' '.$lastname,
+            'OwenerPic' => session('me')->profileIMG
         ]);
     }
 ///
@@ -246,8 +251,8 @@ class Etudiant extends Controller
         $body = $request->get('body');
         $datecomment = "".now();
         $courseid = $request->get('courseid');
-        $ownerId = 'B1Df9tQl7UiACljxusUi';
-        // 
+        $ownerId = session('uid');
+        //
         $comment = new Comment($title,$body,$datecomment,$ownerId,"Dir Name Dyal Student Hna","Hna profile Pic");
         $this->comment_to_a_course($courseid,$comment);
         return redirect(route('student.classroom.course.show',['courseID'=>$courseid]));
@@ -297,13 +302,13 @@ class Etudiant extends Controller
         return redirect('student/classrooms');
     }
     public function myrequests(){
-    $classrooms = $this->get_my_requests('B1Df9tQl7UiACljxusUi');
+    $classrooms = $this->get_my_requests(session('uid'));
     return view('student.classrooms.requests',compact('classrooms'));
     }
 
     public function get_my_tests(){
         $classroomstests = [];
-        $iduser = 'B1Df9tQl7UiACljxusUi';
+        $iduser = session('uid');
           $classrooms = $this->get_my_classrooms($iduser);
         foreach ($classrooms as $classroom){
             if(count($classroom->getTests()) < 1)continue;
@@ -359,12 +364,12 @@ class Etudiant extends Controller
 
 
     public function get_test($classroomid,$testid){
-        $iduser = 'B1Df9tQl7UiACljxusUi';
+        $iduser = session('uid');
         $test = $this->test($testid);
-        $classroom = $this->get_classroom($classroomid);
       $answerconrtroller  = new AnswerController();
      $answertestresult = $answerconrtroller->hasAnswers($iduser,$testid);
-        return view('student.classrooms.tests.show',compact('test',"classroom",'answertestresult'));
+
+        return view('student.classrooms.tests.show',compact('test','answertestresult'));
     }
     private function test($testID)
     {
@@ -391,7 +396,7 @@ public function getsessions($classroomid){
 }
 public function get_all_my_sessions(){
         $sessions = [];
-        $iduser = 'B1Df9tQl7UiACljxusUi';
+        $iduser = session('uid');
         $classrooms = $this->get_my_classrooms($iduser);
         foreach ($classrooms as $classroom){
             $sessions_of_classroom = $this->get_my_sessions($classroom->classroomID);
@@ -408,5 +413,10 @@ public function get_session_view($classroomid,$sessionid){
         $session = $sessioncontroller->session($sessionid);
         $classroom = $this->get_classroom($classroomid);
         return view('student.sessions.show',compact('session','classroom'));
+}
+
+public function logout(){
+        session_destroy();
+        return redirect(route('/login'));
 }
 }

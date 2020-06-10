@@ -121,10 +121,10 @@ h1, h2, h3, h4, h5,
     box-shadow: none !important; }
 
 .site-section {
-  padding: 2.5em 0; }
+  padding: 1em 0; }
   @media (min-width: 768px) {
     .site-section {
-      padding: 5em 0; } }
+      padding: 1rem 0; } }
   .site-section.site-section-sm {
     padding: 4em 0; }
 
@@ -677,7 +677,7 @@ h1, h2, h3, h4, h5,
   border-radius: 7px; }
 
 .site-section {
-  padding: 4em 0;
+  padding: 1em 0;
   position: relative; }
   @media (max-width: 991.98px) {
     .site-section {
@@ -993,9 +993,10 @@ h1, h2, h3, h4, h5,
   font-size: 1rem; }
 
 .courses-title {
-  padding-bottom: 13rem;
+
   background: #7971ea; }
   .courses-title .section-title {
+      margin-top: 50px;
     color: #fff; }
 
 .courses-entry-wrap {
@@ -1038,7 +1039,7 @@ h1, h2, h3, h4, h5,
     font-size: 1.15rem;
     color: #000; }
   .course .stats {
-    font-size: .9rem; }
+    font-size: .4rem; }
   .course:hover {
     top: -10px;
     -webkit-box-shadow: 0 2px 22px -1px rgba(0, 0, 0, 0.3);
