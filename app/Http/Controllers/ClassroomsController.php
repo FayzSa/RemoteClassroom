@@ -149,7 +149,6 @@ class ClassroomsController extends Controller
           $date = new DateTime();
           $dateNow = $date->format("Y-m-d H:i:s");
         $docRef =  $this->db->collection('Classrooms')->newDocument();
-       // print_r($docRef->id());
        $newClass =  $docRef->set([
           'ClassName' => $class->className,
           'Courses'  => [],

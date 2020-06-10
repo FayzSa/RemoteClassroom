@@ -28,7 +28,7 @@ class LivesController extends Controller
         $createMeetingParams->setAttendeePassword($attendedpassword);
         $createMeetingParams->setModeratorPassword($password);
         $createMeetingParams->setWelcomeMessage($welcomemessage);
-        $createMeetingParams->setLogoutUrl('127.0.0.1:8000/teacher/classrooms/show/'.$classroomID,$classroomID);
+        $createMeetingParams->setLogoutUrl(route('live.changestate',['classroomID'=>$classroomID]));
 
         $docRef =  $this->db->collection('Classrooms');
         $class = $docRef->document($classroomID)->update(
@@ -98,6 +98,21 @@ class LivesController extends Controller
         $class->data()["ClassName"] ,session('uid') , $class->data()["Requests"],$class->data()['Tests']);
         return $classroom;
     }
+
+    public function changeState($classroomID)
+    {
+        $docRef =  $this->db->collection('Classrooms');
+        $class = $docRef->document($classroomID)->update(
+            [
     
+    ['path' => 'LiveRunning','value' => false],
+    
+      ]
+        );
+
+        $me = session('me');
+        $classroom = $this->tClass($classroomID);
+        return view("teacher.classrooms.show",compact('classroom','me'));
+    }
     
 }
