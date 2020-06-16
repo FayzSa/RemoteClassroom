@@ -84,6 +84,13 @@ Route::group([
     Route::get('/joinlive', function () {
         return view('teacher.classrooms.joinmeeting');
     });
+    
+    Route::post('teacher/classrooms/live/create/{classroomID}','LivesController@create_meeting')->name('live.create');
+    Route::post('teacher/classrooms/live/join','LivesController@join_meeting')->name('live.join');
+   
+    Route::get('teacher/classrooms/live/leave/{classroomID}','LivesController@changeState')->name('live.changestate');
+    
+    
 
     Route::post('/live/create/{classroomID}','LivesController@create_meeting')->name('live.create');
     Route::post('/live/join','LivesController@join_meeting')->name('live.join');
