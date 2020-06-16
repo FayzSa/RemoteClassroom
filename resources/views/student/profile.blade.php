@@ -60,7 +60,7 @@
                                       <hr>
                                 <h5 class="font-weight-bold">{{  $me->firstName.' '.$me->lastName }}</h5>
                                 <p><span class="badge badge-warning text-white">{{$me->type}}</span></p>
-                                <a href="{{route('Teacher.Settings')}}"><span class="badge badge-primary">Settings</span></a>
+                                <a href="{{route('student.settings')}}"><span class="badge badge-primary">Settings</span></a>
                             </div>
                         </div>
                     </div>

@@ -90,7 +90,7 @@ Route::group([
     //Route::resource('teacher/classrooms',"ClassroomsController");
 
 
-
+    Route::get('teacher/endmeeeting/{classroomID}', 'LivesController@end_meeting')->name('teacher.endMeeting');
     Route::get('teacher/classrooms/requestes/{classroomID}', 'ClassroomsController@requests')->name('classroom.requests');
     Route::get('teacher/classrooms', 'ClassroomsController@index');
     Route::get('teacher/classrooms/create', 'ClassroomsController@create');
@@ -149,7 +149,7 @@ Route::group([
 ], function () {
 
     Route::get('student/classrooms', 'Etudiant@index');
-
+    Route::get('/student/joinlive/{classroomid}','LivesController@join_meeting')->name('student.joinlive');
     Route::get('/tests', 'Etudiant@get_course');
     Route::get('/student/classroom/exit/{classromID}','Etudiant@exit_class_room')->name('student.classroom.exit');
     Route::get('/student/classroom/join','Etudiant@join_class_room_view')->name('student.classroom.joinview');

@@ -65,7 +65,7 @@
                         <a href="{{route('student.classroom.show',['classroomID' => $classroom->classroomID])}}"><img src="{{asset('images/img_5.jpg')}}" alt="Image" class="img-fluid"></a>
                     </figure>
                     <div class="course-inner-text  px-4">
-                        <span class="course-price">join live</span>
+                        @if($classroom->liveRunning == true)<span class="course-price"><a style="color : white" href="{{route('student.joinlive',['classroomid' => $classroom->invitCode])}}">join live</a></span>@endif
                         <h1><a style="font-size: 60%" href="#">{{$classroom->className}}</a></h1>
                         <div class="meta"><span class="icon-clock-o"></span>{{count($classroom->courses)}} Courses</div>
                         <div class="meta"><span class="icon-class"></span>{{count($classroom->tests)}} Exam</div>

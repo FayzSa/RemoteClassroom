@@ -139,7 +139,7 @@ class SessionsController extends Controller
       }
 
       public function allSessions($classroomID){
-       
+
         $SessionRef =  $this->db->collection('Session');
         $snapshot = $SessionRef->where('ClassroomID','==',$classroomID)->orderBy('DateSession','DESC')->documents();
         $Sessions = [];
@@ -149,17 +149,14 @@ class SessionsController extends Controller
                 $datetime1 = new DateTime($dataFormsnap["PostDate"]);
                 $datetime1->add(new DateInterval('P'.$dataFormsnap["Day"].'D'));
                 $now = new DateTime('now');
-               
                if($now < $datetime1){
-
-
             $Session = new
             Sessions($dataFormsnap->id(), $dataFormsnap["DateSession"] ,
             $dataFormsnap["Day"] ,$dataFormsnap["Hour"] ,
             $dataFormsnap["Subject"] ,$classroomID
         );
         array_push($Sessions,$Session);}
-    
+
         }
 
       return $Sessions;
@@ -189,7 +186,7 @@ class SessionsController extends Controller
 
     $date = new DateTime();
     $dateNow = $date->format("Y-m-d H:i:s");
-   
+
 
     $now = new DateTime();
     $year = $now->format("Y");

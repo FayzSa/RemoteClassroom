@@ -115,7 +115,9 @@ class Etudiant extends Controller
                                            $classroom->data()['ClassName'],
                                             $classroom->data()['OwnerID'],null,[]);
                         $classRoom->setTests($classroom->data()['Tests']);
-                        array_push($classRooms,$classRoom);
+                    $classRoom->liveRunning = $classroom->data()["LiveRunning"] ;
+
+                    array_push($classRooms,$classRoom);
 
                 }
             }
@@ -359,9 +361,9 @@ class Etudiant extends Controller
         Classroom($class->id(), $class->data()["Students"] ,
             $class["Courses"] ,$class->data()["InviteCode"] ,
             $class->data()["ClassName"] ,"My ID" , $class->data()["Requests"],$class->data()["Tests"]);
-        return $classroom;
+            $classroom->liveRunning = $class->data()["LiveRunning"] ;
+            return $classroom;
     }
-
 
     public function get_test($classroomid,$testid){
         $iduser = session('uid');
@@ -401,7 +403,7 @@ public function get_all_my_sessions(){
         foreach ($classrooms as $classroom){
             $sessions_of_classroom = $this->get_my_sessions($classroom->classroomID);
 //            print_r($sessions_of_classroom[0].'<br>');
-            if(empty($sessions_of_classroom))continue;
+//            if(empty($sessions_of_classroom))continue;
 //            array_push($sessions,$sessions_of_classroom);
             $sessions = array_merge($sessions,$sessions_of_classroom);
 //            break;

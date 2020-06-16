@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Classroom extends Model
 {
 
-    public $classroomID  , $students , $courses , $invitCode , $className , $owenrID , $requests,$tests;
+    public $classroomID  , $students , $courses , $invitCode , $className , $owenrID , $requests,$tests,$liveRunning;
 
     /**
      * @return mixed

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.student-app')
 @section('title','Settings')
 @section('start')
 
@@ -10,9 +10,9 @@
                 <!-- Hero Content -->
                 <div class="hero-content text-center">
                     <h2>Profile Settings
-                        
+
                     </h2>
-                    
+
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
 @section('content')
 
     <!-- Page Heading -->
-   
+
 
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
@@ -48,16 +48,16 @@
         </div>
 
         <div class="card-body">
-        <form method="POST" action="{{ route('Teacher.Settings.update') }}" autocomplete="off" >
-            
+        <form method="POST" action="{{ route('student.settings.update') }}" autocomplete="off" >
+
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 <input type="hidden" name="_method" value="PUT">
 
-                <h6 class="heading-small text-muted mb-4">Teacher Settings</h6>
+                <h6 class="heading-small text-muted mb-4">Student Settings</h6>
 
                 <div class="pl-lg-4">
-                    
+
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -69,9 +69,9 @@
                     </div>
 
                     <div class="row">
-                        
 
-                       
+
+
                         <div class="col-lg-8">
                             <div class="form-group focused">
                                 <label class="form-control-label" for="new_password">New password</label>
@@ -84,7 +84,7 @@
                                 <input type="password" id="confirm_password" class="form-control" name="password_confirmation" placeholder="Confirm password">
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
 
                 <!-- Button -->
