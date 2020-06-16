@@ -51,6 +51,8 @@ class LivesController extends Controller
   }
   return false;
 }
+
+
 public function createLive($classroomID){
 
     $me = session('me');
@@ -101,7 +103,7 @@ public function end_meeting($classroomID){
         [
 
             ['path' => 'LiveRunning','value' => false],
-
+//hello world
         ]
     );
     return redirect('127.0.0.1:8000/teacher/classrooms/show/'.$classroomID);

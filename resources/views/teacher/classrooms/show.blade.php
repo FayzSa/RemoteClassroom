@@ -14,7 +14,7 @@
                 <!-- Hero Content -->
                 <div class="hero-content text-center">
                     <h2>Welcome To {{$classroom->className}}</h2>
-                    
+
                 </div>
             </div>
         </div>
@@ -26,11 +26,12 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-    <h1> {{$classroom->className}} </h1>    
+    <h1> {{$classroom->className}} </h1>
     </div>
 </div>
 
-<hr>  
+
+<hr>
 
 
 
@@ -70,9 +71,9 @@
 @endforeach
 
 
-        
 
-      
+
+
     </div>
 </section>
 <!-- ##### Popular Course Area End ##### -->

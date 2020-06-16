@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class ClassroomsController extends Controller
 {
-  
+
 
     private function myClasses($OwenrID)
     {
@@ -49,6 +49,7 @@ class ClassroomsController extends Controller
         $classrooms = $this->myClasses(session('uid'));
         return view('teacher.classrooms.index', compact('classrooms','me'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -170,15 +171,15 @@ class ClassroomsController extends Controller
     $class = $docRef->document($classroomID)->snapshot();
 
     $students = [];
-    $ClassStd =$class->data()["Students"]; 
-   
+    $ClassStd =$class->data()["Students"];
+
     foreach($ClassStd as $student)
     {
-        
+
         $std = $this->user($student);
         if($std!=null){
         array_push($students,$std);
-    } 
+    }
 }
     $classroom = new
     Classroom($class->id(), $students ,
@@ -198,12 +199,12 @@ public function requests($classroomID){
         if($student!=null){
             array_push($students,$student);
         }
-       
+
     }
     return view('teacher.classrooms.request',compact('students','classroomID','me'));
 }
 public function addStudentToClass($classroomID,$studentID){
-    
+
     $this->db->collection('Classrooms')->document($classroomID)->update([
         [
             "path" => 'Students',

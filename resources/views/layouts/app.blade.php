@@ -6,15 +6,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>@yield('title')</title>
 
     <!-- Scripts -->
-   
 
-   
+
+
+
     <!--oneschool-->
-    
+
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('oneschool/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('oneschool/css/bootstrap.min.css')}}">
@@ -27,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('oneschool/fonts/flaticon/font/flaticon.css')}}">
     <link rel="stylesheet" href="{{ asset('oneschool/css/aos.css')}}">
     <link rel="stylesheet" href="{{ asset('oneschool/css/style.css')}}">
-    
+
     <!--clever-->
     <link rel="icon" href="{{ asset('clever/img/core-img/favicon.ico') }}">
 
@@ -61,8 +62,8 @@
      @yield('start')
         <main class="py-4 ">
             <div class="container">
-               
-                    @yield('content') 
+
+                    @yield('content')
             </div>
         </main>
     </div>
@@ -96,7 +97,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             <a href="#"><span>Phone:</span> +XXX X XXX XXX</a>
             <a href="#"><span>Email:</span> info@remoteclassroom.com</a>
         </div>
-    
+
     </div>
 </footer>
 
@@ -118,7 +119,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="{{ asset('oneschool/js/jquery.fancybox.min.js')}}"></script>
   <script src="{{ asset('oneschool/js/jquery.sticky.js')}}"></script>
 
-  
+
   <script src="{{ asset('clever/js/main.js')}}"></script>
     <!--clever-->
         <!-- All Plugins js -->

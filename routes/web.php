@@ -90,6 +90,7 @@ Route::group([
     //Route::resource('teacher/classrooms',"ClassroomsController");
 
 
+
     Route::get('teacher/endmeeeting/{classroomID}', 'LivesController@end_meeting')->name('teacher.endMeeting');
     Route::get('teacher/classrooms/requestes/{classroomID}', 'ClassroomsController@requests')->name('classroom.requests');
     Route::get('teacher/classrooms', 'ClassroomsController@index');

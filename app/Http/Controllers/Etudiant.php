@@ -93,6 +93,8 @@ class Etudiant extends Controller
         $course  = $this->get_course($courseID);
         return view('student.classrooms.course',compact('course'));
     }
+
+
     ///get all the student courses which the method try to find
     ///  every class the student is registred in and return array of model course
     ///fayz you can use the same mathode to get claassroums

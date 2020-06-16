@@ -15,6 +15,7 @@
                                 <p data-aos="fade-up" data-aos-delay="200" class="mb-4">by using the invite cod that your teacher gives you :)</p>
                             </div>
 
+
                             <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
                                 <form action="{{route('student.classroom.joinclass')}}" method="post" enctype="multipart/form-data" class="form-box">
                                     <h3 class="h4 text-black mb-4">Invite code</h3>
