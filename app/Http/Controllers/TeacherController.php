@@ -24,10 +24,10 @@ class TeacherController extends Controller
          {
           if($dataFormsnap->exists()){
              $class = new
-             Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ,
-             $dataFormsnap["Courses"] ,$dataFormsnap["InviteCode"] ,
-             $dataFormsnap["ClassName"] ,session('uid') ,$dataFormsnap["Requests"],
-             $dataFormsnap["Tests"]
+             Classroom($dataFormsnap->id(), $dataFormsnap["Students"] ?? [],
+             $dataFormsnap["Courses"] ?? [] ,$dataFormsnap["InviteCode"] ,
+             $dataFormsnap["ClassName"] ,session('uid') ,$dataFormsnap["Requests"] ?? [],
+             $dataFormsnap["Tests"] ?? []
          );
          array_push($classrooms,$class);
       }
