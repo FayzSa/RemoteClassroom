@@ -98,14 +98,23 @@ public function createLive($classroomID){
 
 }
 public function end_meeting($classroomID){
+    $me = session('me');
+    if($me->type == 'Student'){
+        return redirect('/student/classrooms/');
+        
+    }
+    if($me->type == 'Teacher'){
+      
     $docRef =  $this->db->collection('Classrooms');
     $class = $docRef->document($classroomID)->update(
         [
 
             ['path' => 'LiveRunning','value' => false],
-//hello world
+
         ]
     );
-    return redirect('127.0.0.1:8000/teacher/classrooms/show/'.$classroomID);
+    return redirect('/teacher/classrooms/show/'.$classroomID);
+    }
+    
 }
 }
