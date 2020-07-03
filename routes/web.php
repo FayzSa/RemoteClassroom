@@ -193,6 +193,7 @@ Route::group([
     Route::put('student/profile/settings', 'StudentProfileController@settingsUpdate')->name('student.settings.update');
     Route::post('student/profile/settings', 'StudentProfileController@disableaccount')->name('student.settings.disable');
     Route::get('student/profile', 'StudentProfileController@index')->name("student.profile");
+    Route::get('student', 'StudentProfileController@index')->name("student.home");
     Route::put('student/profile/update', 'StudentProfileController@update')->name('student.update');
 });
 
