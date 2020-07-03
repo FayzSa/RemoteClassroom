@@ -111,13 +111,20 @@ class FirebaseController extends Controller
                     $me =  UsersController::user($logged_user->firebaseUserId(),$this->db);
                     session()->put('uid', $logged_user->firebaseUserId());
                     session()->put('me', $me);
+                    if($this->isTeacher($logged_user->firebaseUserId()))
+                    return redirect()->route('teacher.home');
+                    elseif($this->isStudent($logged_user->firebaseUserId()))
+                    return redirect()->route('student.home');
+                    elseif($this->isAdmin($logged_user->firebaseUserId()))
                     return redirect()->route('home');
                 }
 
                 //Credentials are correct
-          } catch (\Kreait\Firebase\Exception\Auth\InvalidPassword $ex) {
-                return back()->withErrors(['Credentials are incorrect']);
-          }
+            } catch (\Kreait\Firebase\Exception\Auth\InvalidPassword | \Kreait\Firebase\Exception\InvalidArgumentException | \Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
+                $message = $e->getMessage();
+                session()->flash('errors', $message);
+                return redirect('login');
+              }
 
 
 

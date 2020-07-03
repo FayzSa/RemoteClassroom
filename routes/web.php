@@ -107,7 +107,7 @@ Route::group([
     Route::get('teacher/classrooms/show/{classroomID}', 'ClassroomsController@show')->name("classrooms.show");
     Route::patch('teacher/classrooms/{classroomID}', 'ClassroomsController@update')->name("classrooms.update");
     Route::delete('teacher/classrooms/{classroomID}', 'ClassroomsController@destroy')->name("classrooms.destroy");
-    Route::get('teacher', 'TeacherController@index');
+    Route::get('teacher', 'TeacherController@index')->name("teacher.home");
 
 
     Route::patch('teacher/classrooms/requestes/{classroomID}/{studentID}', 'ClassroomsController@addStudentToClass')->name("request.add");

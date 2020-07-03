@@ -97,4 +97,9 @@
         </div>
     </div>
 </div>
+@if (session('status'))
+                                        <div class="alert alert-success border-left-success" role="alert">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
 @endsection
